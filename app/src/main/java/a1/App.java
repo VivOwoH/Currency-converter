@@ -3,9 +3,18 @@
  */
 package a1;
 
+import java.io.File;
+import java.util.HashMap;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
+    final String[] initialCurrencies = {"USD", "EUR", "GBP", "JPY", "CAD", "AUD"};
+    HashMap<String, File> currencyHist = new HashMap<>();
+
+    public void systemInit(){
+        //create new text files in resources to record history
+        for(int i = 0; i < 6; i++){
+
+        }
     }
 
     public static void main(String[] args) {
