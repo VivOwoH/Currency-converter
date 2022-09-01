@@ -25,6 +25,7 @@ public class App {
     };
     static HashMap<String, Double> initialRatesMap = new HashMap<>();
     static HashMap<String, File> currencyHist = new HashMap<>();
+    static File dir = new File("tmp/test");
 
     public static void systemInit(){
         //create new text files in resources to record history.
@@ -32,7 +33,6 @@ public class App {
                 USD EUR 0.99 9/1/22
            reads as one USD gets 0.99 EUR on 9/1/22
         */
-        File dir = new File("tmp/test");
         dir.mkdirs();
 
         for(int i = 0; i < 6; i++){
