@@ -57,9 +57,9 @@ public class Data {
 
         for (Map.Entry<Integer, String> e : this.countryIdx.entrySet()) {
             if (e.getValue().equals(country1))
-                rowIdx = e.getKey();
+                rowIdx = e.getKey()-1;
             if (e.getValue().equals(country2))
-                colIdx = e.getKey();
+                colIdx = e.getKey()-1;
         }
 
         if (rowIdx < 0 || colIdx < 0) 

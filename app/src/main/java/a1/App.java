@@ -49,8 +49,8 @@ public class App {
         // test Data
         Data test = new Data();
         // test update currency, should be called from admin class
-        test.setCurrency("AUD", "SGD", 0.99);
-        test.setCurrency("SGD", "AUD", 1.01);
+        test.setCurrency("AUD", "USD", 0.99);
+        test.setCurrency("USD", "AUD", 1.01);
 
         User u1 = new User(test);
         u1.displayPopularCurrency(); // no popular currency table yet
