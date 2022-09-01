@@ -3,6 +3,8 @@
  */
 package a1;
 
+import a1.view.Window;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -28,6 +30,11 @@ public class App {
     static File dir = new File("tmp/test");
 
     public static void systemInit(){
+        //init window object and run
+        Window window = new Window(300,500);
+        window.run();
+        System.out.println("window initiated");
+
         //create new text files in resources to record history.
         /*e.g. USD file records all US From in form:
                 USD EUR 0.99 9/1/22
