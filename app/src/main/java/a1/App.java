@@ -27,6 +27,18 @@ public class App {
     static HashMap<String, File> currencyHist = new HashMap<>();
     static File dir = new File("tmp/test");
 
+    /*
+        Input FromCountry, ToCountry and the rate and this will return the string with date that should then
+        be written to a file.
+     */
+    public static String currencyFormat(String countryOne, String countryTwo, Double rate){
+        Date date = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        String strDate = dateFormat.format(date);
+
+        String returnStr = String.format("%s %s %.2f %s\n", countryOne, countryTwo, rate, strDate);
+        return returnStr;
+    }
     public static void systemInit(){
         //create new text files in resources to record history.
         /*e.g. USD file records all US From in form:
@@ -76,12 +88,9 @@ public class App {
             try{
                 FileWriter currentWriter = new FileWriter(currencyHist.get(country));
                 for(int i = 0; i < 6; i++){
-                    if(!initialCurrencies[i].equals(country)){
-                        Date date = Calendar.getInstance().getTime();
-                        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-                        String strDate = dateFormat.format(date);
-                        currentWriter.write(country + " " + initialCurrencies[i] + " "
-                                + String.format("%.2f", rates[i]) + " " + strDate + "\n");
+                    if(!initialCurrencies[i].equals(country)) {
+                        String toWrite = currencyFormat(country, initialCurrencies[i], rates[i]);
+                        currentWriter.write(toWrite);
                     }
                 }
                 currentWriter.close();
