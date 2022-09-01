@@ -3,12 +3,47 @@
  */
 package a1;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Objects;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
+    final static String[] initialCurrencies = {"USD", "EUR", "GBP", "JPY", "CAD", "AUD"};
+    HashMap<String, File> currencyHist = new HashMap<>();
+
+    public static void systemInit(){
+        //create new text files in resources to record history.
+        /*e.g. USD file records all US From in form:
+                USD EUR 0.99 9/1/22
+           reads as one USD gets 0.99 EUR on 9/1/22
+        */
+        File dir = new File("tmp/test");
+        dir.mkdirs();
+
+        for(int i = 0; i < 6; i++){
+            try{
+                File tmp = new File(dir, initialCurrencies[i]);
+                tmp.createNewFile();
+            }
+            catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void systemClean(){
+        File dir = new File("tmp/test");
+        for (File file: Objects.requireNonNull(dir.listFiles())) {
+            if (!file.isDirectory()) {
+                file.delete();
+            }
+        };
+        dir.delete();
     }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        systemInit();
+        systemClean();
     }
 }
