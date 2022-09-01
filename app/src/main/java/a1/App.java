@@ -45,5 +45,15 @@ public class App {
     public static void main(String[] args) {
         systemInit();
         systemClean();
+
+        // test Data
+        Data test = new Data();
+        // test update currency, should be called from admin class
+        test.setCurrency("AUD", "SGD", 0.99);
+        test.setCurrency("SGD", "AUD", 1.01);
+
+        User u1 = new User(test);
+        u1.displayPopularCurrency(); // no popular currency table yet
+        System.out.println(u1); // test currency table
     }
 }
