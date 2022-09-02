@@ -32,4 +32,3 @@ public class User {
         return b.toString();
     }
 }
-
