@@ -3,8 +3,6 @@
  */
 package a1;
 
-import a1.view.Window;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,101 +14,24 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class App {
-    final static String[] initialCurrencies = {"USD", "EUR", "GBP", "JPY", "CAD", "AUD"};
-    //initial rates are all in form US to
-    final static Double[] initialRates = {Double.valueOf(1.0),
-            Double.valueOf(0.99),
-            Double.valueOf(0.86),
-            Double.valueOf(139.44),
-            Double.valueOf(1.3156),
-            Double.valueOf(1.47)
-    };
-    static HashMap<String, Double> initialRatesMap = new HashMap<>();
-    static HashMap<String, File> currencyHist = new HashMap<>();
-    static File dir = new File("tmp/test");
-
-    public static void systemInit(){
-        //init window object and run
-        Window window = new Window(500,300);
-        window.run();
-//        System.out.println("window initiated");
-
-        //create new text files in resources to record history.
-        /*e.g. USD file records all US From in form:
-                USD EUR 0.99 9/1/22
-           reads as one USD gets 0.99 EUR on 9/1/22
-        */
-        dir.mkdirs();
-
-        for(int i = 0; i < 6; i++){
-            try{
-                File tmp = new File(dir, initialCurrencies[i]);
-                currencyHist.put(initialCurrencies[i], tmp);
-                tmp.createNewFile();
-
-                //initialize map
-                initialRatesMap.put(initialCurrencies[i], initialRates[i]);
-            }
-            catch(IOException e){
-                e.printStackTrace();
-            }
-        }
-
-        //write five conversions for each country
-        for(String country : initialCurrencies){
-            Double[] rates = {null, null, null, null, null, null};
-
-            if(!(country.equals("USD"))){
-                //need to mess w/ conversion values
-                for(int i = 0; i < 6; i++){
-                    if(initialCurrencies[i].equals(country)){
-                        rates[i] = Double.valueOf(1.0);
-                    }
-                    else{
-                        if(initialCurrencies[i].equals("USD")) {
-                            rates[i] = (1/(initialRatesMap.get(country)));
-                        }
-                        else{
-                            Double first = Double.valueOf(1 / initialRatesMap.get(country));
-                            rates[i] = first * initialRatesMap.get(initialCurrencies[i]);
-                        }
-                    }
-                }
-            } else{
-                    rates = initialRates;
-            }
-
-            try{
-                FileWriter currentWriter = new FileWriter(currencyHist.get(country));
-                for(int i = 0; i < 6; i++){
-                    if(!initialCurrencies[i].equals(country)){
-                        Date date = Calendar.getInstance().getTime();
-                        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-                        String strDate = dateFormat.format(date);
-                        currentWriter.write(country + " " + initialCurrencies[i] + " "
-                                + String.format("%.2f", rates[i]) + " " + strDate + "\n");
-                    }
-                }
-                currentWriter.close();
-            }
-            catch(IOException e){
-                System.out.println("Couldn't write to file " + country);
-                e.printStackTrace();
-            }
-        }
-    }
-    public static void systemClean(){
-        File dir = new File("tmp/test");
-        for (File file: Objects.requireNonNull(dir.listFiles())) {
-            if (!file.isDirectory()) {
-                file.delete();
-            }
-        };
-        dir.delete();
-    }
 
     public static void main(String[] args) {
-        systemInit();
-        systemClean();
+        Syst system = new Syst();
+        system.systemInit();
+        //test admin
+        system.admin.addRate("AUD", "USD", 1.0);
+        system.admin.addRate("ZIM", "USD", 12134.2);
+        system.admin.addRate("ZIM", "AUD", 1912.34);
+        system.systemClean();
+
+        // test Data
+//        Data test = new Data();
+//        // test update currency, should be called from admin class
+//        test.setCurrency("AUD", "USD", 0.99);
+//        test.setCurrency("USD", "AUD", 1.01);
+//
+//        User u1 = new User(test);
+//        u1.displayPopularCurrency(); // no popular currency table yet
+//        System.out.println(u1); // test currency table
     }
 }

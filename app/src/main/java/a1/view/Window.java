@@ -10,15 +10,20 @@ import javax.swing.event.*;
 public class Window {
     JFrame frame;
     JPanel panel;
+    private int height;
+    private int width;
 
     public Window(int width, int height) {
+        this.height = height;
+        this.width = width;
+
         frame = new JFrame("app name");
         frame.setSize(width, height);
+        frame.setBackground(Color.decode("#f0ead6"));
 
         panel = new JPanel();
 
-        frame.add(panel);
-        frame.setVisible(true);
+        frame.add(panel, BorderLayout.CENTER);
     }
 
     public void run() {
@@ -26,6 +31,10 @@ public class Window {
     }
 
     private void draw() {
-//        DrawRect mainPanel = new DrawRect();
+        DrawRectangle drawRect = new DrawRectangle(height, width, Color.green);
+        frame.add(drawRect);
+
+        frame.setLocationByPlatform(true);
+        frame.setVisible(true);
     }
 }
