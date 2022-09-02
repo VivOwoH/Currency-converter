@@ -1,31 +1,24 @@
 package a1.view;
 
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
+import java.io.*;
+import java.util.Date;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.event.*;
 
 public class Window {
-    private final int height;
-    private final int width;
-    private final Pane pane;
-    private final Scene scene;
-    
-    public Window(int height, int width) {
-        this.height = height;
-        this.width = width;
+    JFrame frame;
+    JPanel panel;
 
-        pane = new Pane();
-        scene = new Scene(pane, width, height);
-//        System.out.println("window initiated");
-    }
+    public Window(int width, int height) {
+        frame = new JFrame("app name");
+        frame.setSize(width, height);
 
-    public Scene getScene() {
-        return scene;
-    }
+        panel = new JPanel();
 
-    public Pane getPane() {
-        return pane;
+        frame.add(panel);
+        frame.setVisible(true);
     }
 
     public void run() {
@@ -33,9 +26,6 @@ public class Window {
     }
 
     private void draw() {
-        Rectangle tabBar = new Rectangle(10, 0, width, height);
-        tabBar.setFill(Paint.valueOf("ORANGE"));
-        tabBar.setViewOrder(10.0);
-        pane.getChildren().add(tabBar);
+//        DrawRect mainPanel = new DrawRect();
     }
 }

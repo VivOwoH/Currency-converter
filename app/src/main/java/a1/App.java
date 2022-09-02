@@ -31,9 +31,9 @@ public class App {
 
     public static void systemInit(){
         //init window object and run
-        Window window = new Window(300,500);
+        Window window = new Window(500,300);
         window.run();
-        System.out.println("window initiated");
+//        System.out.println("window initiated");
 
         //create new text files in resources to record history.
         /*e.g. USD file records all US From in form:
