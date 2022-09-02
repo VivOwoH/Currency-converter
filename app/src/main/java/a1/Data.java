@@ -9,14 +9,14 @@ public class Data {
      * 1 = SGD
      * 2 = US
      * 3 = EU
-     * (Safer for Key to be audo-assigned than admin-assigned)
      */
     private HashMap<Integer, String> countryIdx;
+    private HashMap<Integer, String> popularCountryIdx; // not same as countryIdx
     /*
      * 2d array [country1][country2]
-     * E.g. [0][0] (r1c1) = AUD <-> AUD
-     * [0][1] (r1c2) = AUD <-> SGD
-     * [3][2] (r3c2) = EU <-> US
+     * E.g. [0][0] = AUD <-> AUD
+     * [0][1] = AUD <-> SGD
+     * [3][2] = EU <-> US
      */
     private double[][] currencyTable;
     private double[][] popularCurrencyTable;
@@ -25,15 +25,15 @@ public class Data {
     public Data() {
         // default initialized with 6 currencies and 6 exchange rates
         this.currencyTable = new double[6][6]; // may need to expand this 2d array later (or ->arrayList)
-        this.popularCurrencyTable = new double[4][4];
-//        this.countryIdx = new HashMap<Integer, String>() {{
-//            put(1, App.initialCurrencies[0]);
-//            put(2, App.initialCurrencies[1]);
-//            put(3, App.initialCurrencies[2]);
-//            put(4, App.initialCurrencies[3]);
-//            put(5, App.initialCurrencies[4]);
-//            put(6, App.initialCurrencies[5]); // TODO: countries should be loaded from file, along with date
-//        }};
+        this.countryIdx = new HashMap<Integer, String>();
+        for (int i=0; i < 6; i++)
+            this.countryIdx.put(i, App.initialCurrencies[i]);
+
+        // default initialized with first 4 currencies as most popular
+        this.popularCurrencyTable = new double[4][4]; // always 4x4
+        this.popularCountryIdx = new HashMap<Integer, String>(); // always 4 countries
+        for (int i=0; i < 4; i++)
+            this.popularCountryIdx.put(i, countryIdx.get(i));
     }
 
     //TODO: function->admin maintain/update popular currency table
@@ -57,9 +57,9 @@ public class Data {
 
         for (Map.Entry<Integer, String> e : this.countryIdx.entrySet()) {
             if (e.getValue().equals(country1))
-                rowIdx = e.getKey()-1;
+                rowIdx = e.getKey();
             if (e.getValue().equals(country2))
-                colIdx = e.getKey()-1;
+                colIdx = e.getKey();
         }
 
         if (rowIdx < 0 || colIdx < 0) 
@@ -67,6 +67,38 @@ public class Data {
 
         int[] result = new int[]{rowIdx, colIdx};
         return result;
+    }
+
+    public void removePopularCountry(String country) {
+        this.popularCountryIdx.values().remove(country);
+        this.updatePopularCurrencyTable();
+    }
+
+    public void addPopularCountry(String country) {
+        int currentNum = this.popularCountryIdx.size();
+        if (currentNum == 4) {
+            System.out.println("Maximum inputs reached. Remove a country first."); 
+                                    // TODO: display msg on UI
+        } else {
+            this.popularCountryIdx.put(currentNum + 1, country);
+            this.updatePopularCurrencyTable();
+        }
+    }
+
+    public void updatePopularCurrencyTable() {
+        // popularCurrencyTable rol&col = popularCountryIdx key
+        // currency found using countryIdx keys on currencyTable[key1][key2]
+        for (int row=0; row < 4; row++) {
+            for (int col=0; col < 4; col++) {
+                String country1 = this.popularCountryIdx.get(row);
+                String country2 = this.popularCountryIdx.get(col);
+
+                int currencyRowIdx = this.findCurrencyInTable(country1, country2)[0];
+                int currencyColIdx = this.findCurrencyInTable(country1, country2)[1];
+                this.popularCurrencyTable[row][col] = this.currencyTable
+                                                        [currencyRowIdx][currencyColIdx];
+            }
+        }
     }
 
     public double[][] getCurrencyTable() {
