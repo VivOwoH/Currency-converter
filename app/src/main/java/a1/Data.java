@@ -26,14 +26,14 @@ public class Data {
         // default initialized with 6 currencies and 6 exchange rates
         this.currencyTable = new double[6][6]; // may need to expand this 2d array later (or ->arrayList)
         this.popularCurrencyTable = new double[4][4];
-        this.countryIdx = new HashMap<Integer, String>() {{
-            put(1, App.initialCurrencies[0]);
-            put(2, App.initialCurrencies[1]);
-            put(3, App.initialCurrencies[2]);
-            put(4, App.initialCurrencies[3]);
-            put(5, App.initialCurrencies[4]); 
-            put(6, App.initialCurrencies[5]); // TODO: countries should be loaded from file, along with date 
-        }};
+//        this.countryIdx = new HashMap<Integer, String>() {{
+//            put(1, App.initialCurrencies[0]);
+//            put(2, App.initialCurrencies[1]);
+//            put(3, App.initialCurrencies[2]);
+//            put(4, App.initialCurrencies[3]);
+//            put(5, App.initialCurrencies[4]);
+//            put(6, App.initialCurrencies[5]); // TODO: countries should be loaded from file, along with date
+//        }};
     }
 
     //TODO: function->admin maintain/update popular currency table

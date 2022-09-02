@@ -8,16 +8,16 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 
 public class Admin extends User{
-    public static HashMap<String, File> currencyHist = new HashMap<>();
-    public Admin() {}
+    public Syst syst;
+    public Admin(Syst syst) {this.syst = syst;};
 
     public void addRate(String from, String to, Double rate){
-        if(currencyHist.keySet().contains(from)){
+        if(syst.currencyHist.keySet().contains(from)){
             //just write to top of list
-            File info = currencyHist.get(from);
+            File info = syst.currencyHist.get(from);
             try{
                 String text = new String(Files.readString(Paths.get(info.getPath())));
-                String toAdd = App.currencyFormat(from, to, rate);
+                String toAdd = Syst.currencyFormat(from, to, rate);
                 FileWriter overwrite = new FileWriter(info);
                 overwrite.write(toAdd + text);
                 overwrite.close();
@@ -27,8 +27,20 @@ public class Admin extends User{
             }
         }
         else{
-            //create new file
+            //create new file and write price
+            try{
+                File tmp = new File(syst.dir, from);
+                syst.currencyHist.put(from, tmp);
+                tmp.createNewFile();
 
+                String toAdd = Syst.currencyFormat(from, to, rate);
+                FileWriter writer = new FileWriter(tmp);
+                writer.write(toAdd);
+                writer.close();
+            }
+            catch(IOException e){
+                e.printStackTrace();
+            }
         }
 
     }

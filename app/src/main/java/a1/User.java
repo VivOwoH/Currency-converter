@@ -5,7 +5,6 @@ import java.util.*;
 public class User {
 
     private Data db;
-    private App app;
 
     public User(Data dbInstance) {
         this.db = dbInstance;
