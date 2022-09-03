@@ -9,7 +9,8 @@ import java.util.HashMap;
 
 public class Admin extends User{
     public Syst syst;
-    public Admin(Syst syst) {this.syst = syst;};
+    public Data data;
+    public Admin(Syst syst, Data data) {this.syst = syst; this.data = data;};
 
     public void addRate(String from, String to, Double rate){
         if(syst.currencyHist.keySet().contains(from)){
@@ -21,6 +22,7 @@ public class Admin extends User{
                 FileWriter overwrite = new FileWriter(info);
                 overwrite.write(toAdd + text);
                 overwrite.close();
+                data.updateCurrencyTable(syst); // Anh doing: Whenever the admin adds a rate, update the currency table
             }
             catch(IOException e){
                 e.printStackTrace();
@@ -32,11 +34,13 @@ public class Admin extends User{
                 File tmp = new File(syst.dir, from);
                 syst.currencyHist.put(from, tmp);
                 tmp.createNewFile();
+                data.addCountryToDB(from);
 
                 String toAdd = Syst.currencyFormat(from, to, rate);
                 FileWriter writer = new FileWriter(tmp);
                 writer.write(toAdd);
                 writer.close();
+                data.updateCurrencyTable(syst); // Anh doing: Whenever the admin adds a rate, update the currency table
             }
             catch(IOException e){
                 e.printStackTrace();
