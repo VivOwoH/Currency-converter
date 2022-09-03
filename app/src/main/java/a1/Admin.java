@@ -9,7 +9,10 @@ import java.util.HashMap;
 
 public class Admin extends User{
     public Syst syst;
-    public Admin(Syst syst) {this.syst = syst;};
+    public Data data;
+    public Admin(Syst syst, Data data) {this.syst = syst; this.data = data;};
+
+    // Anh doing: Whenever the admin adds a rate, update the currency table
 
     public void addRate(String from, String to, Double rate){
         if(syst.currencyHist.keySet().contains(from)){

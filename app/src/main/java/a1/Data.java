@@ -41,6 +41,14 @@ public class Data {
     }
 
     //TODO: function->admin maintain/update popular currency table
+    public void updateCurrencyTable(Syst system){
+        // read every file in test
+
+        // read first three word of each line, split into array
+        //  [0] = country from [1] = country to [2] = rate
+
+
+    }
 
     public static String getInfo(Syst system, String from, String to){
         File current = system.currencyHist.get(from);

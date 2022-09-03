@@ -23,7 +23,8 @@ public class Syst {
     static HashMap<String, Double> initialRatesMap = new HashMap<>();
     public HashMap<String, File> currencyHist = new HashMap<>();
     static File dir = new File("tmp/test");
-    public Admin admin = new Admin(this);
+    public Data data = new Data();
+    public Admin admin = new Admin(this, data);
     /*
         Input FromCountry, ToCountry and the rate and this will return the string with date that should then
         be written to a file.
