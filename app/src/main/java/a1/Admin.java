@@ -34,6 +34,7 @@ public class Admin extends User{
                 File tmp = new File(syst.dir, from);
                 syst.currencyHist.put(from, tmp);
                 tmp.createNewFile();
+                data.addCountryToDB(from);
 
                 String toAdd = Syst.currencyFormat(from, to, rate);
                 FileWriter writer = new FileWriter(tmp);

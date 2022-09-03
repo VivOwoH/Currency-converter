@@ -46,7 +46,6 @@ public class Data {
         assert fileList != null;
         double[][] tempTable = new double[fileList.length][fileList.length];
         try {
-            assert fileList != null;
             for (String file : fileList) {
                 FileReader reader = new FileReader(directory + "/" + file);
                 BufferedReader bufferReader = new BufferedReader(reader);
@@ -85,15 +84,10 @@ public class Data {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-        for (int i = 0; i < currencyTable.length; i++){
-            System.out.println(countryIdx.get(i));
-            for (int j = 0 ; j < currencyTable[i].length; j++){
-                System.out.print(countryIdx.get(j) + " "+ currencyTable[i][j] + "|");
-            }
-            System.out.println();
-        }
-
+    public void addCountryToDB(String countryName){
+        countryIdx.put(countryIdx.size(), countryName);
     }
 
     public static String getInfo(Syst system, String from, String to) {

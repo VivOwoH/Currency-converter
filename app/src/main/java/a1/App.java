@@ -33,10 +33,10 @@ public class App {
         Syst system = new Syst();
         system.systemInit();
         //test admin
-//        system.admin.addRate("AUD", "USD", 1.0);
-//        system.admin.addRate("ZIM", "USD", 12134.2);
+        system.admin.addRate("AUD", "USD", 1.0);
+        system.admin.addRate("ZIM", "USD", 12134.2);
         system.admin.addRate("ZIM", "AUD", 1912.34);
-        //system.systemClean();
+        system.systemClean();
 
         // test Data
 //        Data test = new Data();
