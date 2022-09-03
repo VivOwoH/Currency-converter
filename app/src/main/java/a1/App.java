@@ -15,17 +15,6 @@ import java.util.Objects;
 
 public class App {
     final static String[] initialCurrencies = {"USD", "EUR", "GBP", "JPY", "CAD", "AUD"};
-    //initial rates are all in form US to
-    final static Double[] initialRates = {Double.valueOf(1.0),
-            Double.valueOf(0.99),
-            Double.valueOf(0.86),
-            Double.valueOf(139.44),
-            Double.valueOf(1.3156),
-            Double.valueOf(1.47)
-    };
-    static HashMap<String, Double> initialRatesMap = new HashMap<>();
-    static HashMap<String, File> currencyHist = new HashMap<>();
-    static File dir = new File("tmp/test");
 
     /*
         Input FromCountry, ToCountry and the rate and this will return the string with date that should then
