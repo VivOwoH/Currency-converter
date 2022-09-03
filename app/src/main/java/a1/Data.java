@@ -1,5 +1,9 @@
 package a1;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 public class Data {
@@ -38,7 +42,25 @@ public class Data {
 
     //TODO: function->admin maintain/update popular currency table
 
+    public static String getInfo(Syst system, String from, String to){
+        File current = system.currencyHist.get(from);
+        String line;
+        try{
+            FileReader reader = new FileReader(current);
+            BufferedReader bufferReader = new BufferedReader(reader);
 
+            while ((line = bufferReader.readLine()) != null) {
+                String[] split = line.split(" ");
+                if(split[1].equalsIgnoreCase(to)){
+                    return line;
+                }
+            }
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public void setCountryIdx(Integer key, String country) {
         this.countryIdx.put(key, country);

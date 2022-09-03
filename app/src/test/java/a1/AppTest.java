@@ -20,4 +20,39 @@ class AppTest {
         system.systemClean();
         assertNull(directory.list());
     }
+
+    @Test void testDataGetInfoExistingRate(){
+        Syst system = new Syst();
+        system.systemInit();
+        String string = Data.getInfo(system, "AUD", "USD");
+        String[] test = string.split(" ");
+        assertEquals(test[0], "AUD");
+        assertEquals(test[1], "USD");
+    }
+
+    @Test void testDataGetInfoNewRate(){
+
+    }
+
+    @Test void testAdminWriteExistingCountry(){
+        Syst system = new Syst();
+        system.systemInit();
+        system.admin.addRate("AUD", "USD", 1.2);
+        String string = Data.getInfo(system, "AUD", "USD");
+        String[] test = string.split(" ");
+        assertEquals(test[0], "AUD");
+        assertEquals(test[1], "USD");
+        assertEquals(test[2], "1.20");
+    }
+
+    @Test void testAdminWriteNewCountry(){
+        Syst system = new Syst();
+        system.systemInit();
+        system.admin.addRate("ZIM", "USD", 1.2);
+        String string = Data.getInfo(system, "ZIM", "USD");
+        String[] test = string.split(" ");
+        assertEquals(test[0], "ZIM");
+        assertEquals(test[1], "USD");
+        assertEquals(test[2], "1.20");
+    }
 }
