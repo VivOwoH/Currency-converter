@@ -1,5 +1,7 @@
 package a1;
 
+import a1.view.Window;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -38,6 +40,10 @@ public class Syst {
         return returnStr;
     }
     public void systemInit(){
+        //create new window object
+        Window window = new Window(1000, 600);
+        window.run();
+
         //create new text files in resources to record history.
         /*e.g. USD file records all US From in form:
                 USD EUR 0.99 9/1/22
