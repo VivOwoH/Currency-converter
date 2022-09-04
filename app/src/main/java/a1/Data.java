@@ -11,7 +11,7 @@ public class Data {
      * 2 = US
      * 3 = EU
      */
-    private HashMap<Integer, String> countryIdx;
+    public HashMap<Integer, String> countryIdx;
     private HashMap<Integer, String> popularCountryIdx; // not same as countryIdx
     /*
      * 2d array [country1][country2]
@@ -21,11 +21,13 @@ public class Data {
      */
     private double[][] currencyTable;
     private double[][] popularCurrencyTable;
+    public int size;
 
 
     public Data() {
         // default initialized with 6 currencies and 6 exchange rates
         this.currencyTable = new double[6][6]; // may need to expand this 2d array later (or ->arrayList)
+        this.size = 6;
         this.countryIdx = new HashMap<Integer, String>();
         for (int i = 0; i < 6; i++)
             this.countryIdx.put(i, App.initialCurrencies[i]);
@@ -44,6 +46,7 @@ public class Data {
         String[] fileList = directory.list();
         String line;
         assert fileList != null;
+        this.size = fileList.length;
         double[][] tempTable = new double[fileList.length][fileList.length];
         try {
             for (String file : fileList) {

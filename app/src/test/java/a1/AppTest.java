@@ -11,15 +11,6 @@ import java.io.File;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
-    @Test void testInitClean(){
-        Syst system = new Syst();
-        system.systemInit();
-        File directory=new File("tmp/test");
-        int fileCount=directory.list().length;
-        assertEquals(fileCount, 6);
-        system.systemClean();
-        assertNull(directory.list());
-    }
 
     @Test void testDataGetInfoExistingRate(){
         Syst system = new Syst();
@@ -57,5 +48,14 @@ class AppTest {
         assertEquals(test[1], "USD");
         assertEquals(test[2], "1.20");
         system.systemClean();
+    }
+
+    @Test void testUserRetrieveCurrency(){
+        Syst system = new Syst();
+        system.systemInit();
+        system.data.updateCurrencyTable(system);
+        double test_result = system.user.convertMoney("USD", "AUD", 1.00);
+        system.systemClean();
+        assertEquals(1.00 * 1.47, test_result);
     }
 }

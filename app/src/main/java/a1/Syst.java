@@ -26,7 +26,8 @@ public class Syst {
     public HashMap<String, File> currencyHist = new HashMap<>();
     static File dir = new File("tmp/test");
     public Data data = new Data();
-    public Admin admin = new Admin(this, data);
+    public Admin admin = new Admin(data, this);
+    public User user = new User(data, this);
     /*
         Input FromCountry, ToCountry and the rate and this will return the string with date that should then
         be written to a file.
