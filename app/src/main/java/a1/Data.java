@@ -11,7 +11,7 @@ public class Data {
      * 2 = US
      * 3 = EU
      */
-    public HashMap<Integer, String> countryIdx;
+    private HashMap<Integer, String> countryIdx;
     private HashMap<Integer, String> popularCountryIdx; // not same as countryIdx
     /*
      * 2d array [country1][country2]
@@ -21,16 +21,14 @@ public class Data {
      */
     private double[][] currencyTable;
     private double[][] popularCurrencyTable;
-    public int size;
 
 
     public Data() {
         // default initialized with 6 currencies and 6 exchange rates
         this.currencyTable = new double[6][6]; // may need to expand this 2d array later (or ->arrayList)
-        this.size = 6;
         this.countryIdx = new HashMap<Integer, String>();
         for (int i = 0; i < 6; i++)
-            this.countryIdx.put(i, App.initialCurrencies[i]);
+            this.countryIdx.put(i, Syst.initialCurrencies[i]);
 
         // default initialized with first 4 currencies as most popular
         this.popularCurrencyTable = new double[4][4]; // always 4x4
@@ -42,11 +40,10 @@ public class Data {
     //TODO: function->admin maintain/update popular currency table
     public void updateCurrencyTable(Syst system) {
         // read every file in test
-        File directory = Syst.dir;
+        File directory = system.getDirectory();
         String[] fileList = directory.list();
         String line;
         assert fileList != null;
-        this.size = fileList.length;
         double[][] tempTable = new double[fileList.length][fileList.length];
         try {
             for (String file : fileList) {
@@ -94,7 +91,7 @@ public class Data {
     }
 
     public static String getInfo(Syst system, String from, String to) {
-        File current = system.currencyHist.get(from);
+        File current = system.getCurrencyHist().get(from);
         String line;
         try {
             FileReader reader = new FileReader(current);

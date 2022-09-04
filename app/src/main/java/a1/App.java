@@ -3,19 +3,13 @@
  */
 package a1;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Objects;
 
 public class App {
-    final static String[] initialCurrencies = {"USD", "EUR", "GBP", "JPY", "CAD", "AUD"};
-
+    
     /*
         Input FromCountry, ToCountry and the rate and this will return the string with date that should then
         be written to a file.
