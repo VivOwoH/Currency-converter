@@ -13,7 +13,8 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class Syst {
-    final String[] initialCurrencies = {"USD", "EUR", "GBP", "JPY", "CAD", "AUD"};
+    // other classes can access but cannot change
+    final static String[] initialCurrencies = {"USD", "EUR", "GBP", "JPY", "CAD", "AUD"};
     //initial rates are all in form US to
     final Double[] initialRates = {Double.valueOf(1.0),
             Double.valueOf(0.99),
@@ -22,12 +23,14 @@ public class Syst {
             Double.valueOf(1.3156),
             Double.valueOf(1.47)
     };
-    static HashMap<String, Double> initialRatesMap = new HashMap<>();
-    public HashMap<String, File> currencyHist = new HashMap<>();
-    static File dir = new File("tmp/test");
-    public Data data = new Data();
-    public Admin admin = new Admin(data, this);
-    public User user = new User(data, this);
+    
+    // Only Admin should be allowed write access
+    private HashMap<String, Double> initialRatesMap = new HashMap<>();
+    private HashMap<String, File> currencyHist = new HashMap<>();
+    private File dir = new File("tmp/test");
+    private Data data = new Data();
+    private Admin admin = new Admin(data, this);
+    private User user = new User(data, this); // assume 1 user per session
     /*
         Input FromCountry, ToCountry and the rate and this will return the string with date that should then
         be written to a file.
@@ -114,5 +117,27 @@ public class Syst {
             }
         };
         dir.delete();
+    }
+
+    // ------------ SETTER/GETTER ---------------
+
+    public File getDirectory() {
+        return this.dir;
+    }
+
+    public HashMap<String, File> getCurrencyHist() {
+        return this.currencyHist;
+    }
+
+    public Admin getAdminInstance() {
+        return this.admin;
+    }
+
+    public User getUserInstance() {
+        return this.user;
+    }
+
+    public Data getDataInstance() {
+        return this.data;
     }
 }

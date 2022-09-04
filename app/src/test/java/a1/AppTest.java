@@ -3,18 +3,23 @@
  */
 package a1;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
 
-    @Test void testDataGetInfoExistingRate(){
-        Syst system = new Syst();
-        system.systemInit();
+    private Syst system;
+
+    @BeforeEach
+    public void setUp() {
+        system = new Syst();
+        system.systemInit(); // instantiate it before every test
+    }
+
+    @Test
+    void testDataGetInfoExistingRate() {
         String string = Data.getInfo(system, "AUD", "USD");
         String[] test = string.split(" ");
         assertEquals(test[0], "AUD");
@@ -22,14 +27,14 @@ class AppTest {
         system.systemClean();
     }
 
-    @Test void testDataGetInfoNewRate(){
+    @Test
+    void testDataGetInfoNewRate() {
 
     }
 
-    @Test void testAdminWriteExistingCountry(){
-        Syst system = new Syst();
-        system.systemInit();
-        system.admin.addRate("AUD", "USD", 1.2);
+    @Test
+    void testAdminWriteExistingCountry() {
+        system.getAdminInstance().addRate("AUD", "USD", 1.2);
         String string = Data.getInfo(system, "AUD", "USD");
         String[] test = string.split(" ");
         assertEquals(test[0], "AUD");
@@ -38,10 +43,9 @@ class AppTest {
         system.systemClean();
     }
 
-    @Test void testAdminWriteNewCountry(){
-        Syst system = new Syst();
-        system.systemInit();
-        system.admin.addRate("ZIM", "USD", 1.2);
+    @Test
+    void testAdminWriteNewCountry() {
+        system.getAdminInstance().addRate("ZIM", "USD", 1.2);
         String string = Data.getInfo(system, "ZIM", "USD");
         String[] test = string.split(" ");
         assertEquals(test[0], "ZIM");
@@ -50,11 +54,10 @@ class AppTest {
         system.systemClean();
     }
 
-    @Test void testUserRetrieveCurrency(){
-        Syst system = new Syst();
-        system.systemInit();
-        system.data.updateCurrencyTable(system);
-        double test_result = system.user.convertMoney("USD", "AUD", 1.00);
+    @Test
+    void testUserRetrieveCurrency() {
+        system.getDataInstance().updateCurrencyTable(system);
+        double test_result = system.getUserInstance().convertMoney("USD", "AUD", 1.00);
         system.systemClean();
         assertEquals(1.00 * 1.47, test_result);
     }
