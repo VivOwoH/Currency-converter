@@ -28,6 +28,7 @@ class AppTest {
         String[] test = string.split(" ");
         assertEquals(test[0], "AUD");
         assertEquals(test[1], "USD");
+        system.systemClean();
     }
 
     @Test void testDataGetInfoNewRate(){
@@ -43,6 +44,7 @@ class AppTest {
         assertEquals(test[0], "AUD");
         assertEquals(test[1], "USD");
         assertEquals(test[2], "1.20");
+        system.systemClean();
     }
 
     @Test void testAdminWriteNewCountry(){
@@ -54,5 +56,6 @@ class AppTest {
         assertEquals(test[0], "ZIM");
         assertEquals(test[1], "USD");
         assertEquals(test[2], "1.20");
+        system.systemClean();
     }
 }
