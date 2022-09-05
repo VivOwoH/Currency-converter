@@ -4,37 +4,80 @@ import java.io.*;
 import java.util.Date;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
 
-public class Window {
-    JFrame frame;
-    JPanel panel;
+public class Window extends Frame{
     private int height;
     private int width;
+    private Label label;
 
-    public Window(int width, int height) {
+    private int mode; //0 for convert, 1 for popular
+    private TabButton convTabBtn;
+    private TabButton popTabBtn;
+    private CurrencyInput currIn;
+    private CurrencySelect currSelec;
+
+    public Window(int width, int height, String title) {
+        super(title);
+
         this.height = height;
         this.width = width;
+        mode = 0;
 
-        frame = new JFrame("app name");
-        frame.setSize(width, height);
-        frame.setBackground(Color.decode("#f0ead6"));
+        label = new Label("0", Label.RIGHT);
+        label.setBackground(Color.decode("#f0ead6"));
 
-        panel = new JPanel();
+        convTabBtn = new TabButton(this, 10, 50, "convert");
 
-        frame.add(panel, BorderLayout.CENTER);
+        popTabBtn = new TabButton(this, 10, 80, "popular currencies");
+
+        currIn = new CurrencyInput(this, 400, 100);
+
+        currSelec = new CurrencySelect(this, 500, 100);
     }
 
     public void run() {
-        this.draw();
+        if (mode == 0) {
+            this.drawConvertPage();
+        } else {
+            this.drawPopularPage();
+        }
+
+        addWindowListener(new WindowAdapter()
+        {
+            public void windowClosing(WindowEvent ev)
+            {System.exit(0);}
+        });
+
+        addWindowListener(new WindowAdapter()
+        {
+            public void windowClosing(WindowEvent ev)
+            {System.exit(0);}
+        });
+
+        setLayout(null);
+        setSize(width, height);
+        setVisible(true);
     }
 
-    private void draw() {
-        DrawRectangle drawRect = new DrawRectangle(height, width, Color.green);
-        frame.add(drawRect);
+    private void drawConvertPage() {
 
-        frame.setLocationByPlatform(true);
-        frame.setVisible(true);
+    }
+
+    private void drawPopularPage() {
+
+    }
+
+    public boolean setMode(int m) {
+        if (m != 1 || m != 0) {
+            System.out.println("incorrect mode input!");
+            return false;
+        }
+
+        if (mode == m) {
+            return false;
+        } else {
+            mode = m;
+            return true;
+        }
     }
 }
