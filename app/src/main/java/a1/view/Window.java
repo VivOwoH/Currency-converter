@@ -13,6 +13,7 @@ public class Window extends Frame{
     private int mode; //0 for convert, 1 for popular
     private TabButton convTabBtn;
     private TabButton popTabBtn;
+    private CurrencyInput currIn;
 
     public Window(int width, int height, String title) {
         super(title);
@@ -27,6 +28,8 @@ public class Window extends Frame{
         convTabBtn = new TabButton(this, 10, 50, "convert");
 
         popTabBtn = new TabButton(this, 10, 80, "popular currencies");
+
+        currIn = new CurrencyInput(this, 400, 100);
     }
 
     public void run() {
