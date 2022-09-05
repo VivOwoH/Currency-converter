@@ -37,7 +37,11 @@ public class Data {
             this.popularCountryIdx.put(i, countryIdx.get(i));
     }
 
-    //TODO: function->admin maintain/update popular currency table
+    public void initialize(Syst system) {
+        updateCurrencyTable(system);
+        updatePopularCurrencyTable();
+    }
+
     public void updateCurrencyTable(Syst system) {
         // read every file in test
         File directory = system.getDirectory();
@@ -84,10 +88,16 @@ public class Data {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        // also update popular currency table
+        this.updatePopularCurrencyTable();
     }
 
-    public void addCountryToDB(String countryName){
+    public void addCountryToIdx(String countryName){
         countryIdx.put(countryIdx.size(), countryName);
+    }
+
+    public void setCountryIdx(Integer key, String country) {
+        this.countryIdx.put(key, country);
     }
 
     public static String getInfo(Syst system, String from, String to) {
@@ -107,10 +117,6 @@ public class Data {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public void setCountryIdx(Integer key, String country) {
-        this.countryIdx.put(key, country);
     }
 
     public void setCurrency(String country1, String country2, double value) {
@@ -147,7 +153,7 @@ public class Data {
         int currentNum = this.popularCountryIdx.size();
         if (currentNum == 4) {
             System.out.println("Maximum inputs reached. Remove a country first.");
-            // TODO: display msg on UI
+            // TODO: does not throw error, but display this msg on UI
         } else {
             this.popularCountryIdx.put(currentNum + 1, country);
             this.updatePopularCurrencyTable();
@@ -180,5 +186,9 @@ public class Data {
 
     public HashMap<Integer, String> getCountryIdx() {
         return this.countryIdx;
+    }
+
+    public HashMap<Integer, String> getPopularCountryIdx() {
+        return this.popularCountryIdx;
     }
 }
