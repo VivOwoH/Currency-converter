@@ -22,6 +22,8 @@ public class Window extends Frame{
     private TabButton popTabBtn;
     private CurrencyInput currIn;
     private CurrencySelect currSelec;
+    private CurrencySelect currSelecResult;
+    private WindowText convertResult;
 
     public Window(int width, int height, String title, Syst system) {
         super(title);
@@ -34,19 +36,14 @@ public class Window extends Frame{
         label = new Label("0", Label.RIGHT);
         label.setBackground(Color.decode("#f0ead6"));
 
-        convTabBtn = new TabButton(this, 10, 50, "convert");
+        convTabBtn = new TabButton(this, 450, 150, "convert");
 
-        popTabBtn = new TabButton(this, 10, 80, "popular currencies");
+        currIn = new CurrencyInput(this, 250, 100);
 
-        currIn = new CurrencyInput(this, 400, 100);
+        currSelec = new CurrencySelect(this, 380, 80);
+        currSelecResult = new CurrencySelect(this, 650, 80);
 
-        String[] initCurrencies = Syst.getCurrencies();
-        DefaultListModel<String> currencyList = new DefaultListModel<>();
-
-        for (String currency : initCurrencies) {
-            currencyList.addElement(currency);
-        }
-        currSelec = new CurrencySelect(this, 530, 80);
+        convertResult = new WindowText(this, 550, 105, "sample");
     }
 
     public void run() {
