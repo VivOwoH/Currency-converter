@@ -21,4 +21,4 @@ public class CurrencyInput extends TextField implements ActionListener{
     public void actionPerformed(ActionEvent ev) {
 
     }
-}
+} 
