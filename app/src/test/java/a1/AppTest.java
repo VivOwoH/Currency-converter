@@ -61,4 +61,23 @@ class AppTest {
         system.systemClean();
         assertEquals(1.00 * 1.47, test_result);
     }
+
+    /*
+     * WIP
+     * 0.0|1.01|1.16|0.01|
+        0.99|0.0|1.15|0.01|
+        0.86|0.87|0.0|0.01|
+        139.44|140.85|162.14|0.0|  -- verify if this is initial popular currency
+     */
+    // @Test
+    // void testUserDisplayPopularCurrencyTable() {
+    //     // Initial table
+    //     String[][] expectedTable = {
+    //                                 {},
+    //                                 {},
+    //                                 {},
+    //                                 {}
+    //                             };
+    //     assertEquals(expectedTable, system.getUserInstance().displayPopularCurrency(););
+    // }
 }
