@@ -26,7 +26,9 @@ public class App {
     public static void main(String[] args) {
         Syst system = new Syst();
         system.systemInit();
-        //test admin
+        //test summary
+        system.getAdminInstance().addRate("USD", "AUD", 1.6);
+        System.out.println(system.getDataInstance().getSummary(system, "USD", "AUD"));
         system.systemClean();
 
         // test Data

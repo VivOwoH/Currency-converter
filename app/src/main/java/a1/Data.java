@@ -108,7 +108,7 @@ public class Data {
             while ((line = bufferReader.readLine()) != null) {
                 String[] split = line.split(" ");
                 if (split[1].equalsIgnoreCase(to)) {
-                    summary.append(line);
+                    summary.append(line + "\n");
                 }
             }
         } catch (IOException e) {
