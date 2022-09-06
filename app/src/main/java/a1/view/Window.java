@@ -2,8 +2,6 @@ package a1.view;
 
 import a1.Syst;
 
-import java.io.*;
-import java.util.Date;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -12,14 +10,19 @@ public class Window extends Frame{
     private int width;
     private Label label;
 
+    private Syst system;
+
     private int mode; //0 for convert, 1 for popular
     private TabButton convTabBtn;
     private TabButton popTabBtn;
     private CurrencyInput currIn;
     private CurrencySelect currSelec;
+    private CurrencySelect currSelecResult;
+    private WindowText convertResult;
 
     public Window(int width, int height, String title, Syst system) {
         super(title);
+        this.system = system;
 
         this.height = height;
         this.width = width;
@@ -28,13 +31,14 @@ public class Window extends Frame{
         label = new Label("0", Label.RIGHT);
         label.setBackground(Color.decode("#f0ead6"));
 
-        convTabBtn = new TabButton(this, 10, 50, "convert");
+        convTabBtn = new TabButton(this, 450, 150, "convert");
 
-        popTabBtn = new TabButton(this, 10, 80, "popular currencies");
+        currIn = new CurrencyInput(this, 250, 100);
 
-        currIn = new CurrencyInput(this, 400, 100);
-      
-        currSelec = new CurrencySelect(this, 500, 100, system);
+        currSelec = new CurrencySelect(this, 380, 80);
+        currSelecResult = new CurrencySelect(this, 650, 80);
+
+        convertResult = new WindowText(this, 550, 105, "sample");
     }
 
     public void run() {
@@ -43,12 +47,6 @@ public class Window extends Frame{
         } else {
             this.drawPopularPage();
         }
-
-        addWindowListener(new WindowAdapter()
-        {
-            public void windowClosing(WindowEvent ev)
-            {System.exit(0);}
-        });
 
         addWindowListener(new WindowAdapter()
         {
@@ -81,5 +79,9 @@ public class Window extends Frame{
             mode = m;
             return true;
         }
+    }
+
+    public Syst getSystem() {
+        return system;
     }
 }

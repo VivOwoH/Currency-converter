@@ -144,4 +144,8 @@ public class Syst {
     public Data getDataInstance() {
         return this.data;
     }
+
+    public static String[] getCurrencies() {
+        return Syst.initialCurrencies;
+    }
 }
