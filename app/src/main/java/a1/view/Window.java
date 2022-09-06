@@ -33,7 +33,7 @@ public class Window extends Frame{
         popTabBtn = new TabButton(this, 10, 80, "popular currencies");
 
         currIn = new CurrencyInput(this, 400, 100);
-
+      
         currSelec = new CurrencySelect(this, 500, 100, system);
     }
 
