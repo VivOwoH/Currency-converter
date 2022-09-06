@@ -1,5 +1,7 @@
 package a1.view;
 
+import a1.Syst;
+
 import java.io.*;
 import java.util.Date;
 import java.awt.*;
@@ -10,14 +12,17 @@ public class Window extends Frame{
     private int width;
     private Label label;
 
+    private Syst system;
+
     private int mode; //0 for convert, 1 for popular
     private TabButton convTabBtn;
     private TabButton popTabBtn;
     private CurrencyInput currIn;
     private CurrencySelect currSelec;
 
-    public Window(int width, int height, String title) {
+    public Window(int width, int height, String title, Syst system) {
         super(title);
+        this.system = system;
 
         this.height = height;
         this.width = width;
@@ -79,5 +84,9 @@ public class Window extends Frame{
             mode = m;
             return true;
         }
+    }
+
+    public Syst getSystem() {
+        return system;
     }
 }
