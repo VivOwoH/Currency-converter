@@ -47,7 +47,7 @@ public class Syst {
 
     public void systemInit(){
         //create new window object
-        Window window = new Window(1000, 600, "Currency App");
+        Window window = new Window(1000, 600, "Currency App", this);
         window.run();
 
         //create new text files in resources to record history.
