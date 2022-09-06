@@ -14,7 +14,7 @@ public class Admin extends User {
 
     public void addRate(String from, String to, Double rate) {
         if (syst.getCurrencyHist().keySet().contains(from)) {
-            // just write to top of list
+            // just write to top of lis
             File info = syst.getCurrencyHist().get(from);
             
             try {
