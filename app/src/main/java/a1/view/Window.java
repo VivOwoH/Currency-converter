@@ -1,6 +1,7 @@
 package a1.view;
 
 import a1.Syst;
+import a1.User;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -67,21 +68,23 @@ public class Window extends Frame{
 
     }
 
-    public boolean setMode(int m) {
-        if (m != 1 || m != 0) {
-            System.out.println("incorrect mode input!");
-            return false;
-        }
-
-        if (mode == m) {
-            return false;
-        } else {
-            mode = m;
-            return true;
-        }
-    }
-
     public Syst getSystem() {
         return system;
+    }
+
+    public void convertCurrency() {
+        //get input
+        String inString = currIn.getText();
+        double money = Double.parseDouble(inString);
+
+        String country1 = String.valueOf(currSelec.getSelectedItem());
+        String country2 = String.valueOf(currSelecResult.getSelectedItem());
+
+        //run convert money
+        User user = system.getUserInstance();
+        Double output = user.convertMoney(country1, country2, money);
+
+        //print output
+        convertResult.setText(Double.toString(output));
     }
 }
