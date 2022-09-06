@@ -4,6 +4,9 @@ import a1.Syst;
 
 import java.io.*;
 import java.util.Date;
+
+import javax.swing.DefaultListModel;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -37,7 +40,13 @@ public class Window extends Frame{
 
         currIn = new CurrencyInput(this, 400, 100);
 
-        currSelec = new CurrencySelect(this, 500, 100);
+        String[] initCurrencies = Syst.getCurrencies();
+        DefaultListModel<String> currencyList = new DefaultListModel<>(); 
+
+        for (String currency : initCurrencies) {
+            currencyList.addElement(currency);
+        }
+        currSelec = new CurrencySelect(this, 530, 80);
     }
 
     public void run() {
@@ -46,12 +55,6 @@ public class Window extends Frame{
         } else {
             this.drawPopularPage();
         }
-
-        addWindowListener(new WindowAdapter()
-        {
-            public void windowClosing(WindowEvent ev)
-            {System.exit(0);}
-        });
 
         addWindowListener(new WindowAdapter()
         {

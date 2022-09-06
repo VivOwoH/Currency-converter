@@ -31,6 +31,7 @@ public class Syst {
     private Data data = new Data();
     private Admin admin = new Admin(data, this);
     private User user = new User(data, this); // assume 1 user per session
+    
     /*
         Input FromCountry, ToCountry and the rate and this will return the string with date that should then
         be written to a file.
@@ -43,6 +44,7 @@ public class Syst {
         String returnStr = String.format("%s %s %.2f %s\n", countryOne, countryTwo, rate, strDate);
         return returnStr;
     }
+
     public void systemInit(){
         //create new window object
         Window window = new Window(1000, 600, "Currency App", this);
@@ -108,7 +110,9 @@ public class Syst {
                 e.printStackTrace();
             }
         }
+        this.data.initialize(this); // initialize data with initial values
     }
+
     public void systemClean(){
         File dir = new File("tmp/test");
         for (File file: Objects.requireNonNull(dir.listFiles())) {
@@ -139,5 +143,9 @@ public class Syst {
 
     public Data getDataInstance() {
         return this.data;
+    }
+
+    public static String[] getCurrencies() {
+        return Syst.initialCurrencies;
     }
 }
