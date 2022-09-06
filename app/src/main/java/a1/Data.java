@@ -63,11 +63,11 @@ public class Data {
                     boolean foundFromCountry = false;
                     boolean foundToCountry = false;
                     for(int i = 0; i < fileList.length; i++){ // incredibly inefficient, oh well :P
-                        if (Objects.equals(countryIdx.get(i), fromCountry)){
+                        if (Objects.equals(countryIdx.get(i), fromCountry) && !(foundFromCountry)){
                             fromIdx = i;
                             foundFromCountry = true;
                         }
-                        if (Objects.equals(countryIdx.get(i), toCountry)){
+                        if (Objects.equals(countryIdx.get(i), toCountry) && !(foundToCountry)){
                             toIdx = i;
                             foundToCountry = true;
                         }
