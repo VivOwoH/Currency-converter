@@ -96,9 +96,51 @@ public class Data {
         countryIdx.put(countryIdx.size(), countryName);
     }
 
-    public String getSummary(Syst system, String from, String to){
+    /*
+        Disgusting disgusting range checker. forgive me
+     */
+    public boolean inRange(String[] check, String[] top, String[] bottom){
+        Integer checkYear = Integer.valueOf(check[0]);
+        Integer topYear = Integer.valueOf(top[0]);
+        Integer bottomYear = Integer.valueOf(bottom[0]);
+        Integer checkMonth = Integer.valueOf(check[1]);
+        Integer topMonth = Integer.valueOf(top[1]);
+        Integer bottomMonth = Integer.valueOf(bottom[1]);
+        Integer checkDay = Integer.valueOf(check[2]);
+        Integer topDay = Integer.valueOf(top[2]);
+        Integer bottomDay = Integer.valueOf(bottom[2]);
+
+        if(topYear.intValue() > checkYear.intValue() && checkYear.intValue() > bottomYear.intValue()){
+            return true;
+        }
+        else if(topYear.intValue() == checkYear.intValue() && checkYear.intValue() == bottomYear.intValue()){
+            //check that it fits within range
+            if(topMonth.intValue() == checkMonth.intValue() && checkMonth.intValue() == bottomMonth.intValue()){
+                if(topDay.intValue() >= checkDay.intValue() && checkDay.intValue() >= bottomDay.intValue()){
+                    return true;
+                }
+            }
+            else if(topMonth.intValue() > checkMonth.intValue() && checkMonth.intValue() > bottomMonth.intValue()){
+                return true;
+            }
+        }
+
+        System.out.printf("Date %s-%s-%s is not in range %s-%s-%s -> %s-%s-%s\n",
+                checkYear, checkMonth, checkDay,
+                topYear, topMonth, topDay,
+                bottomYear, bottomMonth, bottomDay);
+
+        return false;
+    }
+
+    public String getSummary(Syst system, String from, String to, String topDate, String bottomDate){
+        boolean foundOne = false;
+        String[] splitTop = topDate.split("-");
+        String[] splitBottom = bottomDate.split("-");
+
         File current = system.getCurrencyHist().get(from);
-        StringBuilder summary = new StringBuilder("");
+        StringBuilder summary = new StringBuilder("CONVERSION HISTORY:\n");
+        ArrayList<Double> rates = new ArrayList<Double>();
         String line;
 
         try {
@@ -107,18 +149,66 @@ public class Data {
 
             while ((line = bufferReader.readLine()) != null) {
                 String[] split = line.split(" ");
+
                 if (split[1].equalsIgnoreCase(to)) {
-                    summary.append(line + "\n");
+                    String date = split[3];
+                    String[] splitDate = date.split("-");
+
+                    //check year, then month, then day
+                    if(inRange(splitDate, splitTop, splitBottom)){
+                        foundOne = true;
+                        rates.add(Double.valueOf(split[2]));
+                        summary.append(line + "\n");
+                    }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        if(summary.equals(new StringBuilder(""))){
+        if(!foundOne){
             return null;
         }
         else{
+            Collections.sort(rates);
+
+            double min = Double.MAX_VALUE;
+            double max = Double.MIN_VALUE;
+            double sum = 0;
+            for(double value : rates){
+                if(value > max){
+                    max = value;
+                }
+                if(value < min){
+                    min = value;
+                }
+                sum += value;
+            }
+            double average = sum / rates.size();
+            double median = rates.get((int) Math.ceil(rates.size()/ 2));
+
+            double temp = 0;
+
+            for (double value : rates)
+            {
+                double squrDiffToMean = Math.pow(value - average, 2);
+                temp += squrDiffToMean;
+            }
+
+            double meanOfDiffs = (double) temp / (double) (rates.size());
+            double stdDev = Math.sqrt(meanOfDiffs);
+
+            summary.append("AVERAGE: ");
+            summary.append(average);
+            summary.append("\nMEDIAN: ");
+            summary.append(median);
+            summary.append("\nMAXIMUM: ");
+            summary.append(max);
+            summary.append("\nMINIMUM: ");
+            summary.append(min);
+            summary.append("\nSTANDARD DEVIATION: ");
+            summary.append(stdDev);
+
             return summary.toString();
         }
     }

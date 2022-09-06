@@ -38,7 +38,7 @@ public class Syst {
      */
     public static String currencyFormat(String countryOne, String countryTwo, Double rate){
         Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String strDate = dateFormat.format(date);
 
         String returnStr = String.format("%s %s %.2f %s\n", countryOne, countryTwo, rate, strDate);

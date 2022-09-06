@@ -28,7 +28,8 @@ public class App {
         system.systemInit();
         //test summary
         system.getAdminInstance().addRate("USD", "AUD", 1.6);
-        System.out.println(system.getDataInstance().getSummary(system, "USD", "AUD"));
+        System.out.println(system.getDataInstance().getSummary(system, "USD", "AUD",
+                "2022-09-06", "2022-09-05"));
         system.systemClean();
 
         // test Data

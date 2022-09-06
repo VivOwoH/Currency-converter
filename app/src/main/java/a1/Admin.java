@@ -5,6 +5,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Admin extends User {
 
@@ -15,12 +19,12 @@ public class Admin extends User {
     public void addRate(String from, String to, Double rate) {
         if (syst.getCurrencyHist().keySet().contains(from)) {
             // just write to top of list
-            File info = syst.getCurrencyHist().get(from);
+            File currentFile = syst.getCurrencyHist().get(from);
             
             try {
-                String text = new String(Files.readString(Paths.get(info.getPath())));
+                String text = new String(Files.readString(Paths.get(currentFile.getPath())));
                 String toAdd = Syst.currencyFormat(from, to, rate);
-                FileWriter overwrite = new FileWriter(info);
+                FileWriter overwrite = new FileWriter(currentFile);
                 overwrite.write(toAdd + text);
                 overwrite.close();
                 db.updateCurrencyTable(syst); // Anh doing: Whenever the admin adds a rate, update the currency table
