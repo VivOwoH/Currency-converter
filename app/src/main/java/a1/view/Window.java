@@ -1,5 +1,7 @@
 package a1.view;
 
+import a1.Syst;
+
 import java.io.*;
 import java.util.Date;
 import java.awt.*;
@@ -16,7 +18,7 @@ public class Window extends Frame{
     private CurrencyInput currIn;
     private CurrencySelect currSelec;
 
-    public Window(int width, int height, String title) {
+    public Window(int width, int height, String title, Syst system) {
         super(title);
 
         this.height = height;
@@ -32,7 +34,7 @@ public class Window extends Frame{
 
         currIn = new CurrencyInput(this, 400, 100);
 
-        currSelec = new CurrencySelect(this, 500, 100);
+        currSelec = new CurrencySelect(this, 500, 100, system);
     }
 
     public void run() {
