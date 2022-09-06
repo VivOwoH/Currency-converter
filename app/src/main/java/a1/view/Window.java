@@ -4,6 +4,9 @@ import a1.Syst;
 
 import java.io.*;
 import java.util.Date;
+
+import javax.swing.DefaultListModel;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -11,6 +14,8 @@ public class Window extends Frame{
     private int height;
     private int width;
     private Label label;
+
+    private Syst system;
 
     private int mode; //0 for convert, 1 for popular
     private TabButton convTabBtn;
@@ -20,6 +25,7 @@ public class Window extends Frame{
 
     public Window(int width, int height, String title, Syst system) {
         super(title);
+        this.system = system;
 
         this.height = height;
         this.width = width;
@@ -33,8 +39,14 @@ public class Window extends Frame{
         popTabBtn = new TabButton(this, 10, 80, "popular currencies");
 
         currIn = new CurrencyInput(this, 400, 100);
-      
-        currSelec = new CurrencySelect(this, 500, 100, system);
+
+        String[] initCurrencies = Syst.getCurrencies();
+        DefaultListModel<String> currencyList = new DefaultListModel<>();
+
+        for (String currency : initCurrencies) {
+            currencyList.addElement(currency);
+        }
+        currSelec = new CurrencySelect(this, 530, 80);
     }
 
     public void run() {
@@ -43,12 +55,6 @@ public class Window extends Frame{
         } else {
             this.drawPopularPage();
         }
-
-        addWindowListener(new WindowAdapter()
-        {
-            public void windowClosing(WindowEvent ev)
-            {System.exit(0);}
-        });
 
         addWindowListener(new WindowAdapter()
         {
@@ -81,5 +87,9 @@ public class Window extends Frame{
             mode = m;
             return true;
         }
+    }
+
+    public Syst getSystem() {
+        return system;
     }
 }

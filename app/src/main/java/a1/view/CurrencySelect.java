@@ -5,16 +5,27 @@ import a1.Syst;
 import java.awt.*;
 import java.awt.event.*;
 
-public class CurrencySelect extends List implements ActionListener {
+import javax.swing.JComboBox;
+
+public class CurrencySelect extends JComboBox<String> implements ActionListener{
     private final Window window;
     private final Syst system;
 
-    public CurrencySelect(Window window, int x, int y, Syst system) {
+    private String[] currencyList;
+
+    private final int height = 75;
+    private final int width = 100;
+
+    public CurrencySelect(Window window, int x, int y) {
+        super(Syst.getCurrencies());
+
         this.window = window;
-        this.system = system;
+        this.system = window.getSystem();
+        this.currencyList = Syst.getCurrencies();
 
-        //read and add currencies from list
+        addActionListener(this);
 
+        setBounds(x, y, width, height);
         this.window.add(this);
     }
 
