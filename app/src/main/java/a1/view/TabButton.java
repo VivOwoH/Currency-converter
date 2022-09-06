@@ -21,6 +21,7 @@ class TabButton extends Button implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ev) {
-
+        //invoke convert action
+        window.convertCurrency();
     }
 }
