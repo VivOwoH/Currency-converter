@@ -8,10 +8,14 @@ import java.awt.event.*;
 import javax.swing.JComboBox;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 public class CurrencySelect extends JComboBox<String> implements ActionListener{
 =======
 public class CurrencySelect extends JComboBox<String> {
 >>>>>>> 179851f (added CurrencySelect.java)
+=======
+public class CurrencySelect extends JComboBox<String> implements ActionListener{
+>>>>>>> b36240c (fix conflicts)
     private final Window window;
     private final Syst system;
 
@@ -19,10 +23,14 @@ public class CurrencySelect extends JComboBox<String> {
 
     private final int height = 75;
 <<<<<<< HEAD
+<<<<<<< HEAD
     private final int width = 100;
 =======
     private final int width = 75;
 >>>>>>> 179851f (added CurrencySelect.java)
+=======
+    private final int width = 100;
+>>>>>>> b36240c (fix conflicts)
 
     public CurrencySelect(Window window, int x, int y) {
         super(Syst.getCurrencies());
