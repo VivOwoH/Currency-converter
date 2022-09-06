@@ -2,11 +2,6 @@ package a1.view;
 
 import a1.Syst;
 
-import java.io.*;
-import java.util.Date;
-
-import javax.swing.DefaultListModel;
-
 import java.awt.*;
 import java.awt.event.*;
 
