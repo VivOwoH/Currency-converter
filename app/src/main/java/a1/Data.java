@@ -90,6 +90,33 @@ public class Data {
         countryIdx.put(countryIdx.size(), countryName);
     }
 
+    public String getSummary(Syst system, String from, String to){
+        File current = system.getCurrencyHist().get(from);
+        StringBuilder summary = new StringBuilder("");
+        String line;
+
+        try {
+            FileReader reader = new FileReader(current);
+            BufferedReader bufferReader = new BufferedReader(reader);
+
+            while ((line = bufferReader.readLine()) != null) {
+                String[] split = line.split(" ");
+                if (split[1].equalsIgnoreCase(to)) {
+                    summary.append(line);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if(summary.equals(new StringBuilder(""))){
+            return null;
+        }
+        else{
+            return summary.toString();
+        }
+    }
+
     public static String getInfo(Syst system, String from, String to) {
         File current = system.getCurrencyHist().get(from);
         String line;
