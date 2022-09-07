@@ -112,6 +112,9 @@ public class Syst {
         }
         this.data.initialize(this); // initialize data with initial values
 
+    }
+
+    public void systemDraw(){
         //create new window object
         Window window = new Window(1000, 600, "User", this);
         window.run();
@@ -119,6 +122,7 @@ public class Syst {
         AdminWindow adminWindow = new AdminWindow(1000, 600, this);
         adminWindow.run();
     }
+
 
     public void systemClean(){
         File dir = new File("tmp/test");
