@@ -10,7 +10,6 @@ public class PopularCurrencies extends JTable{
     public PopularCurrencies(Window window, String[][] contents, String[] columns) {
         super(contents, columns);
 
-        System.out.println(columns);
         this.window = window;
         this.contents = contents;
         this.columns = columns;
