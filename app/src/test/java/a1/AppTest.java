@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.AfterAll;
+
 class AppTest {
 
     private Syst system;
@@ -24,7 +26,6 @@ class AppTest {
         String[] test = string.split(" ");
         assertEquals(test[0], "AUD");
         assertEquals(test[1], "USD");
-        system.systemClean();
     }
 
     @Test
@@ -40,7 +41,6 @@ class AppTest {
         assertEquals(test[0], "AUD");
         assertEquals(test[1], "USD");
         assertEquals(test[2], "1.20");
-        system.systemClean();
     }
 
     @Test
@@ -51,14 +51,12 @@ class AppTest {
         assertEquals(test[0], "ZIM");
         assertEquals(test[1], "USD");
         assertEquals(test[2], "1.20");
-        system.systemClean();
     }
 
     @Test
     void testUserRetrieveCurrency() {
         system.getDataInstance().updateCurrencyTable(system);
         double test_result = system.getUserInstance().convertMoney("USD", "AUD", 1.00);
-        system.systemClean();
         assertEquals(1.00 * 1.47, test_result);
     }
 
