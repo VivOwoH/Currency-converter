@@ -213,10 +213,6 @@ public class Data {
         }
     }
 
-    public void setCountryIdx(Integer key, String country) {
-        this.countryIdx.put(key, country);
-    }
-
     public static String getInfo(Syst system, String from, String to) {
         File current = system.getCurrencyHist().get(from);
         String line;
@@ -293,12 +289,18 @@ public class Data {
         }
     }
 
+    // ---------------- SETTER/GETTER -------------------
+
     public double[][] getCurrencyTable() {
         return this.currencyTable;
     }
 
     public double[][] getPopularCurrencyTable() {
         return this.popularCurrencyTable;
+    }
+
+    public void setCountryIdx(Integer key, String country) {
+        this.countryIdx.put(key, country);
     }
 
     public HashMap<Integer, String> getCountryIdx() {
@@ -308,4 +310,14 @@ public class Data {
     public HashMap<Integer, String> getPopularCountryIdx() {
         return this.popularCountryIdx;
     }
+
+    // ------------ UI related functions -------------
+    public String[] showPopularCountry() {
+        return (String[]) this.popularCountryIdx.values().toArray();
+    }
+
+    public String[] showAllCountry() {
+        return (String[]) this.countryIdx.values().toArray();
+    }
+
 }
