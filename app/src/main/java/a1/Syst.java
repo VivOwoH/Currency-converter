@@ -1,5 +1,6 @@
 package a1;
 
+import a1.view.AdminWindow;
 import a1.view.Window;
 
 import java.io.File;
@@ -31,6 +32,9 @@ public class Syst {
     private Data data = new Data();
     private Admin admin = new Admin(data, this);
     private User user = new User(data, this); // assume 1 user per session
+
+    //window control
+    private int runningWindows = 2;
     
     /*
         Input FromCountry, ToCountry and the rate and this will return the string with date that should then
@@ -46,10 +50,6 @@ public class Syst {
     }
 
     public void systemInit(){
-        //create new window object
-        Window window = new Window(1000, 600, "Currency App", this);
-        window.run();
-
         //create new text files in resources to record history.
         /*e.g. USD file records all US From in form:
                 USD EUR 0.99 9/1/22
@@ -111,6 +111,13 @@ public class Syst {
             }
         }
         this.data.initialize(this); // initialize data with initial values
+
+        //create new window object
+        Window window = new Window(1000, 600, "User", this);
+        window.run();
+
+        AdminWindow adminWindow = new AdminWindow(1000, 600, this);
+        adminWindow.run();
     }
 
     public void systemClean(){
@@ -147,5 +154,12 @@ public class Syst {
 
     public static String[] getCurrencies() {
         return Syst.initialCurrencies;
+    }
+
+    public void closeAWindow() {
+        runningWindows --;
+        if (runningWindows == 0) {
+            System.exit(0);
+        }
     }
 }
