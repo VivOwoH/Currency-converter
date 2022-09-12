@@ -312,8 +312,14 @@ public class Data {
     }
 
     // ------------ UI related functions -------------
+    // ewwww gross function
     public String[] showPopularCountry() {
-        return (String[]) this.popularCountryIdx.values().toArray();
+        String[] tmpArray = new String[this.popularCountryIdx.values().toArray().length];
+        System.out.println(this.popularCountryIdx.values().toArray()[1].toString());
+        for(int i = 0; i < this.popularCountryIdx.values().toArray().length; i++){
+            tmpArray[i] = this.popularCountryIdx.values().toArray()[i].toString();
+        }
+        return tmpArray;
     }
 
     public String[] showAllCountry() {
