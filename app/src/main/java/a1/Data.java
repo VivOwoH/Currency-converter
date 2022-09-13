@@ -323,7 +323,14 @@ public class Data {
     }
 
     public String[] showAllCountry() {
-        return (String[]) this.countryIdx.values().toArray();
+        // return (String[]) this.countryIdx.values().toArray();
+
+        String[] tmpArray = new String[this.countryIdx.values().toArray().length];
+        System.out.println(this.countryIdx.values().toArray()[1].toString());
+        for(int i = 0; i < this.countryIdx.values().toArray().length; i++){
+            tmpArray[i] = this.countryIdx.values().toArray()[i].toString();
+        }
+        return tmpArray;
     } 
 
 }

@@ -20,7 +20,7 @@ public class RefreshButton extends Button implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ev) {
-
+        window.refreshTable();
     }
     
 }

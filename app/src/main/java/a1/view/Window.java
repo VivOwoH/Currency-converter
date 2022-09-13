@@ -1,5 +1,6 @@
 package a1.view;
 
+import a1.Data;
 import a1.Syst;
 import a1.User;
 
@@ -10,7 +11,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class Window extends Frame{
     private int height;
@@ -18,6 +22,7 @@ public class Window extends Frame{
     private Label label;
 
     private Syst system;
+    private Data data;
 
     private TabButton convBtn;
     private CurrencyInput currIn;
@@ -26,6 +31,7 @@ public class Window extends Frame{
     private WindowText convertResult;
     private PopularCurrencies popTable;
     private RefreshButton refreshBtn;
+    private JScrollPane sp;
 
     public Window(int width, int height, String title, Syst system) {
         super(title);
@@ -37,6 +43,19 @@ public class Window extends Frame{
         label = new Label("0", Label.RIGHT);
         label.setBackground(Color.decode("#f0ead6"));
 
+        String[][] popCurr = this.system.getUserInstance().displayPopularCurrency();
+        this.data = system.getDataInstance();
+        String[] countries = data.showPopularCountry();
+        DefaultTableModel dm = new DefaultTableModel(popCurr, countries);
+
+        popTable = new PopularCurrencies(this, popCurr, countries);
+        JList<String> rowHead = new JList<String>(countries);
+        rowHead.setFixedCellWidth(50);
+        sp = new JScrollPane(popTable);
+        sp.setBounds(300, 300, 400, 200);
+        sp.setRowHeaderView(rowHead);
+        add(sp);
+
         convBtn = new TabButton(this, 450, 150, "convert");
 
         currIn = new CurrencyInput(this, 250, 100);
@@ -46,13 +65,6 @@ public class Window extends Frame{
 
         convertResult = new WindowText(this, 550, 105, "plz enter value");
 
-        String[][] popCurr = this.system.getUserInstance().displayPopularCurrency();
-        // HashMap<Integer, String> map = this.system.getDataInstance().getPopularCountryIdx();
-        // String[] cols = Syst.getCurrencies();
-        String[] cols = {"one", "two", "three", "four"};
-
-        popTable = new PopularCurrencies(this, popCurr, cols);
-
         refreshBtn = new RefreshButton(this);
     }
 
@@ -61,7 +73,7 @@ public class Window extends Frame{
         addWindowListener(new WindowAdapter()
         {
             public void windowClosing(WindowEvent ev)
-            {system.closeAWindow();}
+            {System.exit(0);}
         });
 
         setLayout(null);
@@ -83,9 +95,24 @@ public class Window extends Frame{
 
         //run convert money
         User user = system.getUserInstance();
-        Double output = user.convertMoney(country1, country2, money);
+        double rate = user.convertMoney(country1, country2, money);
+        double output = rate * money;
 
         //print output
         convertResult.setText(Double.toString(output));
+    }
+
+    public void refreshTable() {
+        String[][] newData = system.getUserInstance().displayPopularCurrency();
+
+        //clear all data
+        DefaultTableModel m = (DefaultTableModel)popTable.getModel();
+        m.getDataVector().removeAllElements();
+        m.fireTableDataChanged();
+
+        //add data
+        for (String[] row : newData) {
+            m.addRow(row);
+        }
     }
 }
