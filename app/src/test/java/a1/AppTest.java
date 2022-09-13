@@ -20,6 +20,9 @@ class AppTest {
         system.systemInit(); // instantiate it before every test
     }
 
+    // ---------------------------------------------
+    // ---------------- Data ----------------------
+    // ---------------------------------------------
     @Test
     void testDataGetInfoExistingRate() {
         String string = Data.getInfo(system, "AUD", "USD");
@@ -33,6 +36,9 @@ class AppTest {
 
     }
 
+    // ---------------------------------------------
+    // ---------------- Admin ----------------------
+    // ---------------------------------------------
     @Test
     void testAdminWriteExistingCountry() {
         system.getAdminInstance().addRate("AUD", "USD", 1.2);
@@ -53,11 +59,41 @@ class AppTest {
         assertEquals(test[2], "1.20");
     }
 
+    // ---------------------------------------------
+    // ---------------- User -----------------------
+    // ---------------------------------------------
+
     @Test
-    void testUserRetrieveCurrency() {
+    void testUserConvertMoney() {
         system.getDataInstance().updateCurrencyTable(system);
-        double test_result = system.getUserInstance().convertMoney("USD", "AUD", 1.00);
-        assertEquals(1.00 * 1.47, test_result);
+        // on UI (included in popular table)
+        double test_result_1 = system.getUserInstance().convertMoney("JPY", "GBP", 1.00);
+        assertEquals(1.00 * 0.01, test_result_1);
+
+        // internal data (included in currency table only)
+        double test_result_2 = system.getUserInstance().convertMoney("USD", "AUD", 1.00);
+        assertEquals(1.00 * 1.47, test_result_2);
+    }
+
+    @Test 
+    void testUserCompareRate() {
+        // USD - EUR: initial 0.99
+
+        // test no previous data
+        assertTrue(-2 == system.getUserInstance().compareRate(0.99, "USD", "EUR"));
+        
+        // test no change
+        system.getAdminInstance().addRate("USD", "EUR", 0.99);
+        assertTrue(0 == system.getUserInstance().compareRate(0.99, "USD", "EUR"));
+        
+        // test increase
+        system.getAdminInstance().addRate("USD", "EUR", 5.0);
+        assertTrue(1 == system.getUserInstance().compareRate(5.0, "USD", "EUR"));
+        
+        // test decrease
+        system.getAdminInstance().addRate("USD", "EUR", 3.0);
+        assertTrue(-1 == system.getUserInstance().compareRate(3.0, "USD", "EUR"));
+        
     }
 
     /*
@@ -81,5 +117,8 @@ class AppTest {
                 assertEquals(expectedTable[i][j], actualTable[i][j]);
             }
         }
+
+        // After changing rate (i.e. showing I/D)
+
     }
 }

@@ -70,7 +70,8 @@ public class User {
 
         if (prevRate == -1) // no previous rate 
                         // (i.e. current rate the only existing record)
-            return 0;
+            return -2;
+
         else {
             if (rateToCompare == prevRate)
                 return 0;
@@ -100,11 +101,12 @@ public class User {
                 int result = this.compareRate(rate, idx.get(col), idx.get(row));
                 
                 // 1 = increased
-                // 0 = no change / no history record to compare
+                // 0 = no change
                 // -1 = decreased
+                // -2 = no history record to compare
                 if (result == 1)
                     resultTable[row][col] = String.format("%.2f (I)", rate);
-                else if (result == 0)
+                else if (result == 0 || result == -2)
                     resultTable[row][col] = Double.toString(rate);
                 else if (result == -1)
                     resultTable[row][col] = String.format("%.2f (D)", rate);
