@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.AfterAll;
-
 class AppTest {
 
     private Syst system;
@@ -86,6 +84,21 @@ class AppTest {
         for (int i = 0; i < actualTable.length; i++) {
             for (int j = 0; j < actualTable[0].length; j++) {
                 assertEquals(expectedTable[i][j], actualTable[i][j]);
+            }
+        }
+
+        // overwrite existing rate in popular currency table
+        system.getAdminInstance().addRate("EUR", "USD", 2.5);
+        double[][] expectedPopularTable = {
+            {0.0, 2.5, 1.16, 0.01},
+            {0.99, 0.0, 1.15, 0.01},
+            {0.86, 0.87, 0.0, 0.01},
+            {139.44, 140.85, 162.14, 0.0}
+        };
+        double[][] actualPopularTable = system.getDataInstance().getPopularCurrencyTable();
+        for (int i = 0; i < actualPopularTable.length; i++) {
+            for (int j = 0; j < actualPopularTable[0].length; j++) {
+                assertEquals(expectedPopularTable[i][j], actualPopularTable[i][j]);
             }
         }
     }
