@@ -100,11 +100,11 @@ public class User {
                 // 0 = no change / no history record to compare
                 // -1 = decreased
                 if (result == 1)
-                    resultTable[row][col] = String.format("%.2f (I)", rate);
+                    resultTable[row][col] = String.format("%.2f (↑)", rate);
                 else if (result == 0)
                     resultTable[row][col] = Double.toString(rate);
                 else if (result == -1)
-                    resultTable[row][col] = String.format("%.2f (D)", rate);
+                    resultTable[row][col] = String.format("%.2f (↓)", rate);
             }
         }
         return resultTable;
