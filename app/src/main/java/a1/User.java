@@ -81,7 +81,6 @@ public class User {
         }
     }
 
-    // TODO: prints out in console for now, how to connect to UI?
     public String[][] displayPopularCurrency() {
         // update again before fectch for validaty
         db.updatePopularCurrencyTable();

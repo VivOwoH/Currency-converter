@@ -66,12 +66,12 @@ public class Data {
                     int toIdx = 0;
                     boolean foundFromCountry = false;
                     boolean foundToCountry = false;
-                    for(int i = 0; i < fileList.length; i++){ // incredibly inefficient, oh well :P
-                        if (Objects.equals(countryIdx.get(i), fromCountry) && !(foundFromCountry)){
+                    for(int i = 0; i < fileList.length; i++){
+                        if (Objects.equals(countryIdx.get(i), fromCountry)){
                             fromIdx = i;
                             foundFromCountry = true;
                         }
-                        if (Objects.equals(countryIdx.get(i), toCountry) && !(foundToCountry)){
+                        if (Objects.equals(countryIdx.get(i), toCountry)){
                             toIdx = i;
                             foundToCountry = true;
                         }
@@ -80,6 +80,7 @@ public class Data {
                     // construct new currencyTable if both from and to country is found
                     if (foundFromCountry && foundToCountry) {
                         tempTable[toIdx][fromIdx] = rate;
+                        break;
                     }
 
                 }
