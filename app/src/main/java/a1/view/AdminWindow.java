@@ -49,7 +49,7 @@ public class AdminWindow extends Window {
         addWindowListener(new WindowAdapter()
         {
             public void windowClosing(WindowEvent ev)
-            {system.closeAWindow();}
+            {System.exit(0);}
         });
 
         setLayout(null);

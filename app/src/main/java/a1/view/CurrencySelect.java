@@ -17,7 +17,7 @@ public class CurrencySelect extends JComboBox<String> implements ActionListener{
     private final int width = 100;
 
     public CurrencySelect(Window window, int x, int y) {
-        super(Syst.getCurrencies());
+        super(window.getSystem().getDataInstance().showAllCountry());
 
         this.window = window;
         this.system = window.getSystem();
