@@ -49,6 +49,9 @@ public class Data {
         String line;
         assert fileList != null;
         double[][] tempTable = new double[fileList.length][fileList.length];
+
+        HashSet<List<String>> foundPairs = new HashSet<List<String>>();
+
         try {
             for (String file : fileList) {
                 FileReader reader = new FileReader(directory + "/" + file);
@@ -60,6 +63,14 @@ public class Data {
                     String fromCountry = split[0];
                     String toCountry = split[1];
                     double rate = Double.parseDouble(split[2]);
+
+                    // check if this pair of countries has been checked (do not overwrite with old data!)
+                    List<String> pair = List.of(fromCountry, toCountry);
+                    if (foundPairs.contains(pair)) {
+                        continue; // skip this line
+                    } else {
+                        foundPairs.add(pair);
+                    }
 
                     // find index of each country
                     int fromIdx = 0;
@@ -80,7 +91,6 @@ public class Data {
                     // construct new currencyTable if both from and to country is found
                     if (foundFromCountry && foundToCountry) {
                         tempTable[toIdx][fromIdx] = rate;
-                        break;
                     }
 
                 }
@@ -97,9 +107,7 @@ public class Data {
         countryIdx.put(countryIdx.size(), countryName);
     }
 
-    /*
-        Disgusting disgusting range checker. forgive me
-     */
+
     public boolean inRange(String[] check, String[] top, String[] bottom){
         Integer checkYear = Integer.valueOf(check[0]);
         Integer topYear = Integer.valueOf(top[0]);
@@ -231,12 +239,6 @@ public class Data {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public void setCurrency(String country1, String country2, double value) {
-        int rowIdx = this.findCurrencyInTable(country1, country2)[0];
-        int colIdx = this.findCurrencyInTable(country1, country2)[1];
-        this.currencyTable[rowIdx][colIdx] = value;
     }
 
     public int[] findCurrencyInTable(String country1, String country2) {
