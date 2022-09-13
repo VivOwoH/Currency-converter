@@ -66,12 +66,12 @@ public class Data {
                     int toIdx = 0;
                     boolean foundFromCountry = false;
                     boolean foundToCountry = false;
-                    for(int i = 0; i < fileList.length; i++){ // incredibly inefficient, oh well :P
-                        if (Objects.equals(countryIdx.get(i), fromCountry) && !(foundFromCountry)){
+                    for(int i = 0; i < fileList.length; i++){
+                        if (Objects.equals(countryIdx.get(i), fromCountry)){
                             fromIdx = i;
                             foundFromCountry = true;
                         }
-                        if (Objects.equals(countryIdx.get(i), toCountry) && !(foundToCountry)){
+                        if (Objects.equals(countryIdx.get(i), toCountry)){
                             toIdx = i;
                             foundToCountry = true;
                         }
@@ -80,6 +80,7 @@ public class Data {
                     // construct new currencyTable if both from and to country is found
                     if (foundFromCountry && foundToCountry) {
                         tempTable[toIdx][fromIdx] = rate;
+                        break;
                     }
 
                 }
@@ -312,7 +313,6 @@ public class Data {
     }
 
     // ------------ UI related functions -------------
-    // ewwww gross function
     public String[] showPopularCountry() {
         String[] tmpArray = new String[this.popularCountryIdx.values().toArray().length];
         System.out.println(this.popularCountryIdx.values().toArray()[1].toString());
@@ -323,8 +323,6 @@ public class Data {
     }
 
     public String[] showAllCountry() {
-        // return (String[]) this.countryIdx.values().toArray();
-
         String[] tmpArray = new String[this.countryIdx.values().toArray().length];
         System.out.println(this.countryIdx.values().toArray()[1].toString());
         for(int i = 0; i < this.countryIdx.values().toArray().length; i++){

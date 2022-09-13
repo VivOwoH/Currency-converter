@@ -81,7 +81,6 @@ public class User {
         }
     }
 
-    // TODO: prints out in console for now, how to connect to UI?
     public String[][] displayPopularCurrency() {
         // update again before fectch for validaty
         db.updatePopularCurrencyTable();
@@ -94,31 +93,23 @@ public class User {
         // for every value in the table, compare to previous rate
         for (int row = 0; row < table.length; row++) {
             for (int col = 0; col < table[0].length; col++) {
+                
                 double rate = table[row][col];
-                int result = this.compareRate(rate, idx.get(row), idx.get(col));
+
+                // col = from, row = to
+                int result = this.compareRate(rate, idx.get(col), idx.get(row));
+                
                 // 1 = increased
                 // 0 = no change / no history record to compare
                 // -1 = decreased
                 if (result == 1)
-                    resultTable[row][col] = String.format("%.2f (↑)", rate);
+                    resultTable[row][col] = String.format("%.2f (I)", rate);
                 else if (result == 0)
                     resultTable[row][col] = Double.toString(rate);
                 else if (result == -1)
-                    resultTable[row][col] = String.format("%.2f (↓)", rate);
+                    resultTable[row][col] = String.format("%.2f (D)", rate);
             }
         }
         return resultTable;
-    }
-
-    // TODO: remove this, testing output only
-    public String toString() {
-        StringBuilder b = new StringBuilder();
-
-        for (String[] row : this.displayPopularCurrency()) {
-            for (String i : row)
-                b.append(i + "|");
-            b.append("\n");
-        }
-        return b.toString();
     }
 }

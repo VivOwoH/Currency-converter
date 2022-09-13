@@ -61,21 +61,25 @@ class AppTest {
     }
 
     /*
-     * WIP
      * 0.0|1.01|1.16|0.01|
         0.99|0.0|1.15|0.01|
         0.86|0.87|0.0|0.01|
-        139.44|140.85|162.14|0.0|  -- verify if this is initial popular currency
+        139.44|140.85|162.14|0.0|  -- verify initial popular currency
      */
-    // @Test
-    // void testUserDisplayPopularCurrencyTable() {
-    //     // Initial table
-    //     String[][] expectedTable = {
-    //                                 {},
-    //                                 {},
-    //                                 {},
-    //                                 {}
-    //                             };
-    //     assertEquals(expectedTable, system.getUserInstance().displayPopularCurrency(););
-    // }
+    @Test
+    void testUserDisplayPopularCurrencyTable() {
+        // Initial table
+        String[][] expectedTable = {
+                                    {"0.0", "1.01", "1.16", "0.01"},
+                                    {"0.99", "0.0", "1.15", "0.01"},
+                                    {"0.86", "0.87", "0.0", "0.01"},
+                                    {"139.44", "140.85", "162.14", "0.0"}
+                                };
+        String[][] actualTable = system.getUserInstance().displayPopularCurrency();
+        for (int i = 0; i < actualTable.length; i++) {
+            for (int j = 0; j < actualTable[0].length; j++) {
+                assertEquals(expectedTable[i][j], actualTable[i][j]);
+            }
+        }
+    }
 }
