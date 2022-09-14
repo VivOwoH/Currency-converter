@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.AfterEach;
+
 class AppTest {
 
     private Syst system;
@@ -15,8 +17,12 @@ class AppTest {
     @BeforeEach
     public void setUp() {
         system = new Syst();
-        system.systemClean(); // clear currency files
         system.systemInit(); // instantiate it before every test
+    }
+
+    @AfterEach
+    public void clean() {
+        system.systemClean();
     }
 
     // ---------------------------------------------

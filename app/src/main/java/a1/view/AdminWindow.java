@@ -46,10 +46,11 @@ public class AdminWindow extends Window {
 
     public void run() {
 
-        addWindowListener(new WindowAdapter()
-        {
-            public void windowClosing(WindowEvent ev)
-            {System.exit(0);}
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent ev) {
+                system.systemClean();
+                System.exit(0);
+            }
         });
 
         setLayout(null);
@@ -58,12 +59,12 @@ public class AdminWindow extends Window {
     }
 
     public void addRate() {
-        String fromStr = from.getText();
-        String toStr = to.getText();
+        String fromStr = from.getText().toUpperCase();
+        String toStr = to.getText().toUpperCase();
         String rateStr = rate.getText();
         Double rateDouble = Double.parseDouble(rateStr);
 
         admin.addRate(fromStr, toStr, rateDouble);
     }
-    
+
 }

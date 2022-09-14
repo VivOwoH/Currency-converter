@@ -92,8 +92,8 @@ public class Data {
                     if (foundFromCountry && foundToCountry) {
                         tempTable[toIdx][fromIdx] = rate;
                     }
-
                 }
+                bufferReader.close();
             }
             this.currencyTable = tempTable;
         } catch (IOException e) {
@@ -171,6 +171,7 @@ public class Data {
                     }
                 }
             }
+            bufferReader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -227,14 +228,16 @@ public class Data {
         String line;
         try {
             FileReader reader = new FileReader(current);
-            BufferedReader bufferReader = new BufferedReader(reader);
-
-            while ((line = bufferReader.readLine()) != null) {
-                String[] split = line.split(" ");
-                if (split[1].equalsIgnoreCase(to)) {
-                    return line;
+            try (BufferedReader bufferReader = new BufferedReader(reader)) {
+                while ((line = bufferReader.readLine()) != null) {
+                    String[] split = line.split(" ");
+                    if (split[1].equalsIgnoreCase(to)) {
+                        return line;
+                    }
                 }
+                bufferReader.close();
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
