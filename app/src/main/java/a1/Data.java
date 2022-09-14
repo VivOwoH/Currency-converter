@@ -49,6 +49,9 @@ public class Data {
         String line;
         assert fileList != null;
         double[][] tempTable = new double[fileList.length][fileList.length];
+
+        HashSet<List<String>> foundPairs = new HashSet<List<String>>();
+
         try {
             for (String file : fileList) {
                 FileReader reader = new FileReader(directory + "/" + file);
@@ -61,17 +64,25 @@ public class Data {
                     String toCountry = split[1];
                     double rate = Double.parseDouble(split[2]);
 
+                    // check if this pair of countries has been checked (do not overwrite with old data!)
+                    List<String> pair = List.of(fromCountry, toCountry);
+                    if (foundPairs.contains(pair)) {
+                        continue; // skip this line
+                    } else {
+                        foundPairs.add(pair);
+                    }
+
                     // find index of each country
                     int fromIdx = 0;
                     int toIdx = 0;
                     boolean foundFromCountry = false;
                     boolean foundToCountry = false;
-                    for(int i = 0; i < fileList.length; i++){ // incredibly inefficient, oh well :P
-                        if (Objects.equals(countryIdx.get(i), fromCountry) && !(foundFromCountry)){
+                    for(int i = 0; i < fileList.length; i++){
+                        if (Objects.equals(countryIdx.get(i), fromCountry)){
                             fromIdx = i;
                             foundFromCountry = true;
                         }
-                        if (Objects.equals(countryIdx.get(i), toCountry) && !(foundToCountry)){
+                        if (Objects.equals(countryIdx.get(i), toCountry)){
                             toIdx = i;
                             foundToCountry = true;
                         }
@@ -96,9 +107,7 @@ public class Data {
         countryIdx.put(countryIdx.size(), countryName);
     }
 
-    /*
-        Disgusting disgusting range checker. forgive me
-     */
+
     public boolean inRange(String[] check, String[] top, String[] bottom){
         Integer checkYear = Integer.valueOf(check[0]);
         Integer topYear = Integer.valueOf(top[0]);
@@ -232,12 +241,6 @@ public class Data {
         return null;
     }
 
-    public void setCurrency(String country1, String country2, double value) {
-        int rowIdx = this.findCurrencyInTable(country1, country2)[0];
-        int colIdx = this.findCurrencyInTable(country1, country2)[1];
-        this.currencyTable[rowIdx][colIdx] = value;
-    }
-
     public int[] findCurrencyInTable(String country1, String country2) {
 
         int rowIdx = -1; // country1 index
@@ -312,7 +315,6 @@ public class Data {
     }
 
     // ------------ UI related functions -------------
-    // ewwww gross function
     public String[] showPopularCountry() {
         String[] tmpArray = new String[this.popularCountryIdx.values().toArray().length];
         System.out.println(this.popularCountryIdx.values().toArray()[1].toString());
@@ -323,8 +325,6 @@ public class Data {
     }
 
     public String[] showAllCountry() {
-        // return (String[]) this.countryIdx.values().toArray();
-
         String[] tmpArray = new String[this.countryIdx.values().toArray().length];
         System.out.println(this.countryIdx.values().toArray()[1].toString());
         for(int i = 0; i < this.countryIdx.values().toArray().length; i++){
