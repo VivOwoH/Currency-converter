@@ -62,6 +62,7 @@ public class User {
                 if (prevRate != -1 && currentRate != -1)
                     break;
             }
+            bufferReader.close();
         } catch (FileNotFoundException e) {
             System.out.println("File must exist in Database to be read");
         } catch (IOException e) {

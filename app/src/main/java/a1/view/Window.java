@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class Window extends Frame{
+public class Window extends Frame {
     private int height;
     private int width;
     private Label label;
@@ -70,10 +70,11 @@ public class Window extends Frame{
 
     public void run() {
 
-        addWindowListener(new WindowAdapter()
-        {
-            public void windowClosing(WindowEvent ev)
-            {System.exit(0);}
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent ev) {
+                system.systemClean();
+                System.exit(0);
+            }
         });
 
         setLayout(null);
@@ -86,31 +87,31 @@ public class Window extends Frame{
     }
 
     public void convertCurrency() {
-        //get input
+        // get input
         String inString = currIn.getText();
         double money = Double.parseDouble(inString);
 
         String country1 = String.valueOf(currSelec.getSelectedItem());
         String country2 = String.valueOf(currSelecResult.getSelectedItem());
 
-        //run convert money
+        // run convert money
         User user = system.getUserInstance();
         double rate = user.convertMoney(country1, country2, money);
         double output = rate * money;
 
-        //print output
+        // print output
         convertResult.setText(Double.toString(output));
     }
 
     public void refreshTable() {
         String[][] newData = system.getUserInstance().displayPopularCurrency();
 
-        //clear all data
-        DefaultTableModel m = (DefaultTableModel)popTable.getModel();
+        // clear all data
+        DefaultTableModel m = (DefaultTableModel) popTable.getModel();
         m.getDataVector().removeAllElements();
         m.fireTableDataChanged();
 
-        //add data
+        // add data
         for (String[] row : newData) {
             m.addRow(row);
         }
