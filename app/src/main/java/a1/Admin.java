@@ -5,10 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 public class Admin extends User {
 
@@ -27,7 +23,7 @@ public class Admin extends User {
                 FileWriter overwrite = new FileWriter(currentFile);
                 overwrite.write(toAdd + text);
                 overwrite.close();
-                db.updateCurrencyTable(syst); // Anh doing: Whenever the admin adds a rate, update the currency table
+                db.updateCurrencyTable(syst); // Whenever the admin adds a rate, update the currency table
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -43,7 +39,7 @@ public class Admin extends User {
                 FileWriter writer = new FileWriter(tmp);
                 writer.write(toAdd);
                 writer.close();
-                db.updateCurrencyTable(syst); // Anh doing: Whenever the admin adds a rate, update the currency table
+                db.updateCurrencyTable(syst); //Whenever the admin adds a rate, update the currency table
             } catch (IOException e) {
                 e.printStackTrace();
             }
