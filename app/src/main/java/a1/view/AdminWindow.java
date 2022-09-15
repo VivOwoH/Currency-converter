@@ -21,6 +21,7 @@ public class AdminWindow extends Window {
     private WindowText fromTxt;
     private WindowText toTxt;
     private WindowText rateTxt;
+    private WindowText confirmTxt;
 
     public AdminWindow(int width, int height, Syst system) {
         super(width, height, "Admin", system);
@@ -40,6 +41,7 @@ public class AdminWindow extends Window {
         fromTxt = new WindowText(this, 200, 200, "from:");
         toTxt = new WindowText(this, 380, 200, "to:");
         rateTxt = new WindowText(this, 580, 200, "new rate:");
+        confirmTxt = new WindowText(this, 580, 255, "");
 
         addRateBtn = new AddRateButton(this, 470, 250);
     }
@@ -65,6 +67,7 @@ public class AdminWindow extends Window {
         Double rateDouble = Double.parseDouble(rateStr);
 
         admin.addRate(fromStr, toStr, rateDouble);
+        confirmTxt.setText("Rate added!");
     }
 
 }
