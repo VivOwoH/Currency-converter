@@ -101,7 +101,7 @@ public class User {
                 // -1 = decreased
                 if (result == 1)
                     resultTable[row][col] = String.format("%.2f (↑)", rate);
-                else if (result == 0)
+                else if (result == 0 || result == -2)
                     resultTable[row][col] = Double.toString(rate);
                 else if (result == -1)
                     resultTable[row][col] = String.format("%.2f (↓)", rate);
