@@ -21,5 +21,6 @@ public class SummaryButton extends Button implements ActionListener {
 
     public void actionPerformed(ActionEvent ev) {
         //PRINT SUMMARY!!
+        window.summary();
     }
 }

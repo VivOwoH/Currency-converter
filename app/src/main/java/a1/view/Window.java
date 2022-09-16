@@ -108,6 +108,19 @@ public class Window extends Frame {
         return system;
     }
 
+    public void summary(){
+        String fromDate = dateInLower.getText();
+        String toDate = dateInUpper.getText();
+        String fromCur = summaryCurrencyIn.getText();
+        String toCur = summaryCurrencyOut.getText();
+
+        String summary = Data.getSummary(this.system, fromCur, toCur, fromDate, toDate);
+
+        if(summary != null){
+            System.out.println(summary);
+        }
+    }
+
     public void convertCurrency() {
         // get input
         String inString = currIn.getText();

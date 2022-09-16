@@ -2,6 +2,8 @@ package a1;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Data {
     /*
@@ -107,8 +109,16 @@ public class Data {
         countryIdx.put(countryIdx.size(), countryName);
     }
 
+    //returns true if string is in correct quality
+    private static boolean qualityCheck(String date){
+        Pattern pattern = Pattern.compile("^\\d{4}-\\d{1,2}-\\d{1,2}$");
+        Matcher matcher = pattern.matcher(date);
+        boolean matchFound = matcher.matches();
 
-    public boolean inRange(String[] check, String[] top, String[] bottom){
+        return matchFound;
+    }
+
+    private static boolean inRange(String[] check, String[] top, String[] bottom){
         Integer checkYear = Integer.valueOf(check[0]);
         Integer topYear = Integer.valueOf(top[0]);
         Integer bottomYear = Integer.valueOf(bottom[0]);
@@ -142,7 +152,11 @@ public class Data {
         return false;
     }
 
-    public String getSummary(Syst system, String from, String to, String topDate, String bottomDate){
+    public static String getSummary(Syst system, String from, String to, String topDate, String bottomDate){
+        if(!qualityCheck(bottomDate) || !qualityCheck(topDate)){
+            System.out.println("Input strings should be in the format YEAR-MONTH-DAY");
+            return null;
+        }
         boolean foundOne = false;
         String[] splitTop = topDate.split("-");
         String[] splitBottom = bottomDate.split("-");
