@@ -320,7 +320,7 @@ public class Data {
     // ------------ UI related functions -------------
     public String[] showPopularCountry() {
         String[] tmpArray = new String[this.popularCountryIdx.values().toArray().length];
-        System.out.println(this.popularCountryIdx.values().toArray()[1].toString());
+//        System.out.println(this.popularCountryIdx.values().toArray()[1].toString());
         for(int i = 0; i < this.popularCountryIdx.values().toArray().length; i++){
             tmpArray[i] = this.popularCountryIdx.values().toArray()[i].toString();
         }
@@ -329,7 +329,7 @@ public class Data {
 
     public String[] showAllCountry() {
         String[] tmpArray = new String[this.countryIdx.values().toArray().length];
-        System.out.println(this.countryIdx.values().toArray()[1].toString());
+//        System.out.println(this.countryIdx.values().toArray()[1].toString());
         for(int i = 0; i < this.countryIdx.values().toArray().length; i++){
             tmpArray[i] = this.countryIdx.values().toArray()[i].toString();
         }

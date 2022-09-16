@@ -20,7 +20,16 @@ public class Window extends Frame {
     private int height;
     private int width;
     private Label label;
+    private DateInput dateInLower;
+    private DateInput dateInUpper;
+    private CurrencyInput summaryCurrencyIn;
+    private CurrencyInput summaryCurrencyOut;
 
+    private WindowText summaryInText;
+    private WindowText summaryOutText;
+    private SummaryButton summaryButton;
+    private WindowText dateFrom;
+    private WindowText dateTo;
     private Syst system;
     private Data data;
 
@@ -52,7 +61,7 @@ public class Window extends Frame {
         JList<String> rowHead = new JList<String>(countries);
         rowHead.setFixedCellWidth(50);
         sp = new JScrollPane(popTable);
-        sp.setBounds(300, 300, 400, 200);
+        sp.setBounds(300, 300, 400, 100);
         sp.setRowHeaderView(rowHead);
         add(sp);
 
@@ -66,6 +75,19 @@ public class Window extends Frame {
         convertResult = new WindowText(this, 550, 105, "plz enter value");
 
         refreshBtn = new RefreshButton(this);
+
+        dateInLower = new DateInput(this, 240, 450);
+        dateInUpper = new DateInput(this, 400, 450);
+
+        dateFrom = new WindowText(this, 200, 450, "start:");
+        dateTo = new WindowText(this, 370, 450, "end:");
+
+        summaryCurrencyIn = new CurrencyInput(this, 240, 500);
+        summaryCurrencyOut = new CurrencyInput(this, 400, 500);
+
+        summaryInText = new WindowText(this, 200, 500, "from");
+        summaryOutText = new WindowText(this, 370, 500, "to");
+        summaryButton = new SummaryButton(this);
     }
 
     public void run() {
