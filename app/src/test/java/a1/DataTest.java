@@ -152,7 +152,8 @@ public class DataTest {
         Data data = system.getDataInstance();
         // both countries found
         int[] result = data.findCurrencyInTable("USD", "EUR");
-        assertEquals(new int[] { 0, 1 }, result);
+        assertEquals(0, result[0]);
+        assertEquals(1, result[1]);
     }
 
     @Test
