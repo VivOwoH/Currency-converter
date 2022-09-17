@@ -111,6 +111,7 @@ public class Data {
 
     //returns true if string is in correct quality
     private static boolean qualityCheck(String date){
+        // match YEAR(4 digits)-MONTH(1/2 digits)-DAY(1/2 digits)
         Pattern pattern = Pattern.compile("^\\d{4}-\\d{1,2}-\\d{1,2}$");
         Matcher matcher = pattern.matcher(date);
         boolean matchFound = matcher.matches();

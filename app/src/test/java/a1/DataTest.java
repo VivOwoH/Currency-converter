@@ -1,7 +1,13 @@
 package a1;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -110,6 +116,90 @@ public class DataTest {
         data.addCountryToIdx("ZIM");
 
         assertTrue(data.getCountryIdx().get(nextIdx)=="ZIM");
+    }
+
+    /*
+     * This test also covers qualityCheck() and inRange()
+     * We require the system date of which the test runs for this test
+     * We are only testing init date and time
+     */
+    @Test
+    void testGetSummary() {    
+        // get current date
+        Date d = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String[] dateParts = dateFormat.format(d).split(" ");
+        String currentDate = dateParts[0];
+        String currentTime = dateParts[1];
+
+        String[] splitDate = dateParts[0].split("-");
+        Integer currentYr = Integer.valueOf(splitDate[0]);
+        Integer currentMonth = Integer.valueOf(splitDate[1]);
+        Integer currentDay = Integer.valueOf(splitDate[2]);
+
+        // local variable for testing
+        String topDate;
+        String bottomDate;
+
+        /* 
+         * -----------------------------------------------------------------
+         * date provided in wrong format (i.e. not passing qualityCheck())
+         * -----------------------------------------------------------------
+         */
+        assertNull(Data.getSummary(system, "AUD", "USD", 
+                        "2022/9/1", "2022-9-10"));
+        assertNull(Data.getSummary(system, "AUD", "USD", 
+                        "2022-9-1", "22-09-10"));
+
+        /*
+         * -----------------------------------------------------------------
+         * given years in bounds
+         * -----------------------------------------------------------------
+         */
+        // currentYr in range -> true
+
+        // Yr is the same, but months in range -> true
+
+        // Yr is the same, but months NOT in range -> false
+
+        // Yr is the same, month is the same, but day in range -> true
+
+        // Yr is the same, month is the same, but day NOT in range -> false
+
+        /*
+         * -----------------------------------------------------------------
+         * given years are out of bounds
+         * -----------------------------------------------------------------
+         */
+        
+        // topDate out of bounds
+        topDate = String.format("%d-%d-%d", currentYr-1, currentMonth, currentDay);
+        bottomDate = String.format("%d-%d-%d", currentYr-2, currentMonth, currentDay);
+        assertNull(Data.getSummary(system, "AUD", "USD", 
+                        topDate, bottomDate));
+
+        // bottomDate out of bounds
+        topDate = String.format("%d-%d-%d", currentYr+2, currentMonth, currentDay);
+        bottomDate = String.format("%d-%d-%d", currentYr+1, currentMonth, currentDay);
+        assertNull(Data.getSummary(system, "AUD", "USD", 
+                        topDate, bottomDate));
+        
+        /*
+         * -----------------------------------------------------------------
+         * Record found
+         * -----------------------------------------------------------------
+         */
+        String result = Data.getSummary(system, "AUD", "USD", 
+                    currentDate, currentDate);
+        String expectedSummary = "CONVERSION HISTORY:\n" +
+                                "AUD USD 0.68 " + 
+                                String.format("%s %s\n", currentDate, currentTime) +
+                                "AVERAGE: 0.68" +
+                                "\nMEDIAN: 0.68" +
+                                "\nMAXIMUM: 0.68" +
+                                "\nMINIMUM: 0.68" +
+                                "\nSTANDARD DEVIATION: 0.0";
+        assertEquals(expectedSummary, result);
     }
 
 
