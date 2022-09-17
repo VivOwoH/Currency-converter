@@ -27,10 +27,6 @@ public class App {
         Syst system = new Syst();
         system.systemInit();
         system.systemDraw();
-        //test summary
-        system.getAdminInstance().addRate("USD", "AUD", 1.6);
-        System.out.println(system.getDataInstance().getSummary(system, "USD", "AUD",
-                "2022-09-06", "2022-09-05"));
 
         // test Data
 //        Data test = new Data();
