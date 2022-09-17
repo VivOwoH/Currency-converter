@@ -22,7 +22,7 @@ public class UserTest {
         system.systemClean();
     }
 
-    //-----------------------------------------
+    // -----------------------------------------
     @Test
     void testUserConvertMoney() {
         system.getDataInstance().updateCurrencyTable(system);
@@ -35,42 +35,42 @@ public class UserTest {
         assertEquals(1.00 * 1.47, test_result_2);
     }
 
-    @Test 
+    @Test
     void testUserCompareRate() {
         // USD - EUR: initial 0.99
 
         // test no previous data
         assertTrue(-2 == system.getUserInstance().compareRate(0.99, "USD", "EUR"));
-        
+
         // test no change
         system.getAdminInstance().addRate("USD", "EUR", 0.99);
         assertTrue(0 == system.getUserInstance().compareRate(0.99, "USD", "EUR"));
-        
+
         // test increase
         system.getAdminInstance().addRate("USD", "EUR", 5.0);
         assertTrue(1 == system.getUserInstance().compareRate(5.0, "USD", "EUR"));
-        
+
         // test decrease
         system.getAdminInstance().addRate("USD", "EUR", 3.0);
         assertTrue(-1 == system.getUserInstance().compareRate(3.0, "USD", "EUR"));
-        
+
     }
 
     /*
      * 0.0|1.01|1.16|0.01|
-        0.99|0.0|1.15|0.01|
-        0.86|0.87|0.0|0.01|
-        139.44|140.85|162.14|0.0|  -- initial popular currency
+     * 0.99|0.0|1.15|0.01|
+     * 0.86|0.87|0.0|0.01|
+     * 139.44|140.85|162.14|0.0| -- initial popular currency
      */
     @Test
     void testUserDisplayPopularCurrencyTable() {
         // Initial table
         String[][] expectedTable = {
-                                    {"0.0", "1.01", "1.16", "0.01"},
-                                    {"0.99", "0.0", "1.15", "0.01"},
-                                    {"0.86", "0.87", "0.0", "0.01"},
-                                    {"139.44", "140.85", "162.14", "0.0"}
-                                };
+                { "0.0", "1.01", "1.16", "0.01" },
+                { "0.99", "0.0", "1.15", "0.01" },
+                { "0.86", "0.87", "0.0", "0.01" },
+                { "139.44", "140.85", "162.14", "0.0" }
+        };
         String[][] actualTable = system.getUserInstance().displayPopularCurrency();
         for (int i = 0; i < actualTable.length; i++) {
             for (int j = 0; j < actualTable[0].length; j++) {
@@ -79,6 +79,43 @@ public class UserTest {
         }
 
         // After changing rate (i.e. showing I/D)
+        // test no change
+        system.getAdminInstance().addRate("USD", "EUR", 0.99);
+        for (int i = 0; i < actualTable.length; i++) {
+            for (int j = 0; j < actualTable[0].length; j++) {
+                assertEquals(expectedTable[i][j], actualTable[i][j]);
+            }
+        }
+
+        // test increase
+        system.getAdminInstance().addRate("USD", "EUR", 5.0);
+        String[][] expectedTable2 = {
+                { "0.0", "1.01", "1.16", "0.01" },
+                { "5.00 (I)", "0.0", "1.15", "0.01" },
+                { "0.86", "0.87", "0.0", "0.01" },
+                { "139.44", "140.85", "162.14", "0.0" }
+        };
+        actualTable = system.getUserInstance().displayPopularCurrency();
+        for (int i = 0; i < actualTable.length; i++) {
+            for (int j = 0; j < actualTable[0].length; j++) {
+                assertEquals(expectedTable2[i][j], actualTable[i][j]);
+            }
+        }
+
+        // test decrease
+        system.getAdminInstance().addRate("USD", "EUR", 3.0);
+        String[][] expectedTable3 = {
+                { "0.0", "1.01", "1.16", "0.01" },
+                { "3.00 (D)", "0.0", "1.15", "0.01" },
+                { "0.86", "0.87", "0.0", "0.01" },
+                { "139.44", "140.85", "162.14", "0.0" }
+        };
+        actualTable = system.getUserInstance().displayPopularCurrency();
+        for (int i = 0; i < actualTable.length; i++) {
+            for (int j = 0; j < actualTable[0].length; j++) {
+                assertEquals(expectedTable3[i][j], actualTable[i][j]);
+            }
+        }
 
     }
 }
