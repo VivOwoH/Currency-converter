@@ -11,6 +11,8 @@
     - right country: convert to
 - Reload popular currency table
     - User needs to manually click "reload" button to check whether any popular currency rates have been updated by Admin
+- Generate summary of the conversion rates of 2 currencies within a specific duration (start and end dates)
+    - includes all conversion rates, average, median, max, min and SD
 
 
 ### Admin window
@@ -20,13 +22,15 @@
     - Rates of existing countries would update to its lastest
     - Rates of new countries would create a new column/row in the table
     - When a rate is successfully added, reload to see the result
+- Update popular currencies (max 4) 
 
 
 ## How to test
-- Run <code>gradle test</code> and <code>gradle  gradle test jacocoTestReport</code> for manual testing.
-- Active Jenkins would receive push requests and auto build including tests.    
+- Run <code>gradle test</code> (will auto run <code>gradle test jacocoTestReport</code>) for manual testing.
+- Active Jenkins would receive push requests and auto build including tests and generate coverage report.    
 
 ## How to contribute to the codebase
 - Create a separate branch for Features/Fixes
-- Ensure all tests are passed manually before requesting to merge.
-- Ensure the host is running Jenkins before merge to master
+    - Write unit tests asap if adding a new function  
+- Ensure all tests are passed and build successful locally before pushing and requesting to merge
+- Ensure the host is running Jenkins before merge to master 
