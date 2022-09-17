@@ -111,6 +111,7 @@ public class Data {
 
     //returns true if string is in correct quality
     private static boolean qualityCheck(String date){
+        // match YEAR(4 digits)-MONTH(1/2 digits)-DAY(1/2 digits)
         Pattern pattern = Pattern.compile("^\\d{4}-\\d{1,2}-\\d{1,2}$");
         Matcher matcher = pattern.matcher(date);
         boolean matchFound = matcher.matches();
@@ -278,19 +279,38 @@ public class Data {
     }
 
     public void removePopularCountry(String country) {
-        this.popularCountryIdx.values().remove(country);
-        this.updatePopularCurrencyTable();
+        for (Map.Entry<Integer,String> entry : this.popularCountryIdx.entrySet()) {
+            if (entry.getValue().equals(country)) { // country in set
+                Integer keyToRemove = entry.getKey();
+                this.popularCountryIdx.replace(keyToRemove, null);
+
+                // move key forward (except last entry removed)
+                if (keyToRemove != 3) {
+                    for (int i = keyToRemove; i < 3; i++) {
+                        this.popularCountryIdx.replace(i, this.popularCountryIdx.get(i+1));
+                    }
+                    this.popularCountryIdx.replace(3, null);
+                }
+                this.updatePopularCurrencyTable();
+                return;
+            }
+        }
     }
 
     public void addPopularCountry(String country) {
-        int currentNum = this.popularCountryIdx.size();
-        if (currentNum == 4) {
-            System.out.println("Maximum inputs reached. Remove a country first.");
-            // TODO: does not throw error, but display this msg on UI
-        } else {
-            this.popularCountryIdx.put(currentNum + 1, country);
-            this.updatePopularCurrencyTable();
+        // A popular country must already be addedin currency table
+        if (!this.countryIdx.containsValue(country)) {
+            System.out.println("Country not in database. Add rate first.");
+            return;
         }
+
+        for (int i = 0; i < 4; i++) {
+            if (this.popularCountryIdx.get(i) == null) {
+                this.popularCountryIdx.replace(i, country);
+                this.updatePopularCurrencyTable();
+            }
+        }
+        System.out.println("Maximum inputs reached. Remove a country first.");
     }
 
     public void updatePopularCurrencyTable() {
@@ -300,6 +320,11 @@ public class Data {
             for (int col = 0; col < 4; col++) {
                 String country1 = this.popularCountryIdx.get(row);
                 String country2 = this.popularCountryIdx.get(col);
+
+                if (country1 == null || country2 == null) {
+                    this.popularCurrencyTable[row][col] = 0.0;
+                    return;
+                }
 
                 int currencyRowIdx = this.findCurrencyInTable(country1, country2)[0];
                 int currencyColIdx = this.findCurrencyInTable(country1, country2)[1];
