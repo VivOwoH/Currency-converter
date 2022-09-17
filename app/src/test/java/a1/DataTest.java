@@ -1,6 +1,7 @@
 package a1;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -116,6 +117,38 @@ public class DataTest {
         data.addCountryToIdx("ZIM");
 
         assertTrue(data.getCountryIdx().get(nextIdx)=="ZIM");
+    }
+
+    @Test
+    void testAddRemovePopularCountry() {
+        Data data = system.getDataInstance();
+
+        assertTrue(data.getPopularCountryIdx().containsValue("USD"));
+        assertTrue(data.getPopularCountryIdx().containsValue("EUR"));
+        assertTrue(data.getPopularCountryIdx().containsValue("GBP"));
+        assertTrue(data.getPopularCountryIdx().containsValue("JPY"));
+
+        // already have 4 popular countries, reject change
+        data.addPopularCountry("ZIM"); // attempt to add
+        assertFalse(data.getPopularCountryIdx().containsValue("ZIM"));
+
+        // can add more popular country
+        assertTrue(data.getPopularCountryIdx().size()==4);
+        data.removePopularCountry("EUR"); // remove value at idx=1
+        assertNull(data.getPopularCountryIdx().get(3)); // last entry null
+        
+        // add a popular country that is not in database -> reject change
+        data.addPopularCountry("ZIM");
+        assertNull(data.getPopularCountryIdx().get(3)); // last entry still null
+        
+        system.getAdminInstance().addRate("ZIM", "USD", 1.2);
+        data.addPopularCountry("ZIM");
+        assertEquals("ZIM", data.getPopularCountryIdx().get(3));
+    }
+
+    @Test
+    void testFindCurrencyInTable() {
+
     }
 
     /*
