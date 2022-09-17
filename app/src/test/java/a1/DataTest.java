@@ -140,6 +140,15 @@ public class DataTest {
         // local variable for testing
         String topDate;
         String bottomDate;
+        String result;
+        String expectedSummary = "CONVERSION HISTORY:\n" +
+                                "AUD USD 0.68 " + 
+                                String.format("%s %s\n", currentDate, currentTime) +
+                                "AVERAGE: 0.68" +
+                                "\nMEDIAN: 0.68" +
+                                "\nMAXIMUM: 0.68" +
+                                "\nMINIMUM: 0.68" +
+                                "\nSTANDARD DEVIATION: 0.0";
 
         /* 
          * -----------------------------------------------------------------
@@ -150,21 +159,6 @@ public class DataTest {
                         "2022/9/1", "2022-9-10"));
         assertNull(Data.getSummary(system, "AUD", "USD", 
                         "2022-9-1", "22-09-10"));
-
-        /*
-         * -----------------------------------------------------------------
-         * given years in bounds
-         * -----------------------------------------------------------------
-         */
-        // currentYr in range -> true
-
-        // Yr is the same, but months in range -> true
-
-        // Yr is the same, but months NOT in range -> false
-
-        // Yr is the same, month is the same, but day in range -> true
-
-        // Yr is the same, month is the same, but day NOT in range -> false
 
         /*
          * -----------------------------------------------------------------
@@ -183,23 +177,54 @@ public class DataTest {
         bottomDate = String.format("%d-%d-%d", currentYr+1, currentMonth, currentDay);
         assertNull(Data.getSummary(system, "AUD", "USD", 
                         topDate, bottomDate));
-        
+
         /*
          * -----------------------------------------------------------------
-         * Record found
+         * given years in bounds
          * -----------------------------------------------------------------
          */
-        String result = Data.getSummary(system, "AUD", "USD", 
+        // currentYr in range -> true
+        result = Data.getSummary(system, "AUD", "USD", 
                     currentDate, currentDate);
-        String expectedSummary = "CONVERSION HISTORY:\n" +
-                                "AUD USD 0.68 " + 
-                                String.format("%s %s\n", currentDate, currentTime) +
-                                "AVERAGE: 0.68" +
-                                "\nMEDIAN: 0.68" +
-                                "\nMAXIMUM: 0.68" +
-                                "\nMINIMUM: 0.68" +
-                                "\nSTANDARD DEVIATION: 0.0";
         assertEquals(expectedSummary, result);
+
+        // Yr is the same, but months in range -> true
+        topDate = String.format("%d-%d-%d", currentYr, currentMonth+1, currentDay);
+        bottomDate = String.format("%d-%d-%d", currentYr, currentMonth-1, currentDay);
+        result = Data.getSummary(system, "AUD", "USD", 
+                    topDate, bottomDate);
+        assertEquals(expectedSummary, result);
+
+        // Yr is the same, but months NOT in range -> false
+        // topDate not in range
+        topDate = String.format("%d-%d-%d", currentYr, currentMonth-1, currentDay);
+        bottomDate = String.format("%d-%d-%d", currentYr, currentMonth-2, currentDay);
+        assertNull(Data.getSummary(system, "AUD", "USD", 
+                    topDate, bottomDate));
+        // bottomDate not in range
+        topDate = String.format("%d-%d-%d", currentYr, currentMonth+1, currentDay);
+        bottomDate = String.format("%d-%d-%d", currentYr, currentMonth+2, currentDay);
+        assertNull(Data.getSummary(system, "AUD", "USD", 
+                    topDate, bottomDate));
+
+        // Yr is the same, month is the same, but day in range -> true
+        topDate = String.format("%d-%d-%d", currentYr, currentMonth, currentDay+1);
+        bottomDate = String.format("%d-%d-%d", currentYr, currentMonth, currentDay-1);
+        result = Data.getSummary(system, "AUD", "USD", 
+                    topDate, bottomDate);
+        assertEquals(expectedSummary, result);
+
+        // Yr is the same, month is the same, but day NOT in range -> false
+        // topDate not in range
+        topDate = String.format("%d-%d-%d", currentYr, currentMonth, currentDay-1);
+        bottomDate = String.format("%d-%d-%d", currentYr, currentMonth, currentDay-2);
+        assertNull(Data.getSummary(system, "AUD", "USD", 
+                    topDate, bottomDate));
+        // bottomDate not in range
+        topDate = String.format("%d-%d-%d", currentYr, currentMonth+1, currentDay+1);
+        bottomDate = String.format("%d-%d-%d", currentYr, currentMonth+2, currentDay+2);
+        assertNull(Data.getSummary(system, "AUD", "USD", 
+                    topDate, bottomDate));
     }
 
 
