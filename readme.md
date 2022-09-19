@@ -11,6 +11,7 @@
     - right country: convert to
 - Reload popular currency table
     - User needs to manually click "reload" button to check whether any popular currency rates have been updated by Admin
+    - an up/down arrow will appear next to the currency rate value if the rate increases or decreases
 - Generate summary of the conversion rates of 2 currencies within a specific duration (start and end dates)
     - includes all conversion rates, average, median, max, min and SD
 
@@ -21,8 +22,12 @@
     - Country currencies are case-insensitive
     - Rates of existing countries would update to its lastest
     - Rates of new countries would create a new column/row in the table
+    - Rates of new countries will only be added if no currency in the from input already exists
     - When a rate is successfully added, reload to see the result
-- Update popular currencies (max 4) 
+- Add/Delete popular currencies
+    - Admin selects country they wish to add/delete from the popular currencies table and update it by pressing add/delete button accordingly
+    - Reload to see results
+    - Popular currencies has upper limit of 4. If there are 4 popular currencies, delete one before adding another
 
 
 ## How to test
