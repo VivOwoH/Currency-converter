@@ -24,7 +24,6 @@ public class Data {
     private double[][] currencyTable;
     private double[][] popularCurrencyTable;
 
-
     public Data() {
         // default initialized with 6 currencies and 6 exchange rates
         this.currencyTable = new double[6][6]; // may need to expand this 2d array later (or ->arrayList)
@@ -66,7 +65,8 @@ public class Data {
                     String toCountry = split[1];
                     double rate = Double.parseDouble(split[2]);
 
-                    // check if this pair of countries has been checked (do not overwrite with old data!)
+                    // check if this pair of countries has been checked (do not overwrite with old
+                    // data!)
                     List<String> pair = List.of(fromCountry, toCountry);
                     if (foundPairs.contains(pair)) {
                         continue; // skip this line
@@ -79,12 +79,12 @@ public class Data {
                     int toIdx = 0;
                     boolean foundFromCountry = false;
                     boolean foundToCountry = false;
-                    for(int i = 0; i < fileList.length; i++){
-                        if (Objects.equals(countryIdx.get(i), fromCountry)){
+                    for (int i = 0; i < fileList.length; i++) {
+                        if (Objects.equals(countryIdx.get(i), fromCountry)) {
                             fromIdx = i;
                             foundFromCountry = true;
                         }
-                        if (Objects.equals(countryIdx.get(i), toCountry)){
+                        if (Objects.equals(countryIdx.get(i), toCountry)) {
                             toIdx = i;
                             foundToCountry = true;
                         }
@@ -105,12 +105,12 @@ public class Data {
         this.updatePopularCurrencyTable();
     }
 
-    public void addCountryToIdx(String countryName){
+    public void addCountryToIdx(String countryName) {
         countryIdx.put(countryIdx.size(), countryName);
     }
 
-    //returns true if string is in correct quality
-    private static boolean qualityCheck(String date){
+    // returns true if string is in correct quality
+    private static boolean qualityCheck(String date) {
         // match YEAR(4 digits)-MONTH(1/2 digits)-DAY(1/2 digits)
         Pattern pattern = Pattern.compile("^\\d{4}-\\d{1,2}-\\d{1,2}$");
         Matcher matcher = pattern.matcher(date);
@@ -119,7 +119,7 @@ public class Data {
         return matchFound;
     }
 
-    private static boolean inRange(String[] check, String[] top, String[] bottom){
+    private static boolean inRange(String[] check, String[] top, String[] bottom) {
         Integer checkYear = Integer.valueOf(check[0]);
         Integer topYear = Integer.valueOf(top[0]);
         Integer bottomYear = Integer.valueOf(bottom[0]);
@@ -130,17 +130,15 @@ public class Data {
         Integer topDay = Integer.valueOf(top[2]);
         Integer bottomDay = Integer.valueOf(bottom[2]);
 
-        if(topYear.intValue() > checkYear.intValue() && checkYear.intValue() > bottomYear.intValue()){
+        if (topYear.intValue() > checkYear.intValue() && checkYear.intValue() > bottomYear.intValue()) {
             return true;
-        }
-        else if(topYear.intValue() == checkYear.intValue() && checkYear.intValue() == bottomYear.intValue()){
-            //check that it fits within range
-            if(topMonth.intValue() == checkMonth.intValue() && checkMonth.intValue() == bottomMonth.intValue()){
-                if(topDay.intValue() >= checkDay.intValue() && checkDay.intValue() >= bottomDay.intValue()){
+        } else if (topYear.intValue() == checkYear.intValue() && checkYear.intValue() == bottomYear.intValue()) {
+            // check that it fits within range
+            if (topMonth.intValue() == checkMonth.intValue() && checkMonth.intValue() == bottomMonth.intValue()) {
+                if (topDay.intValue() >= checkDay.intValue() && checkDay.intValue() >= bottomDay.intValue()) {
                     return true;
                 }
-            }
-            else if(topMonth.intValue() > checkMonth.intValue() && checkMonth.intValue() > bottomMonth.intValue()){
+            } else if (topMonth.intValue() > checkMonth.intValue() && checkMonth.intValue() > bottomMonth.intValue()) {
                 return true;
             }
         }
@@ -153,8 +151,8 @@ public class Data {
         return false;
     }
 
-    public static String getSummary(Syst system, String from, String to, String topDate, String bottomDate){
-        if(!qualityCheck(bottomDate) || !qualityCheck(topDate)){
+    public static String getSummary(Syst system, String from, String to, String topDate, String bottomDate) {
+        if (!qualityCheck(bottomDate) || !qualityCheck(topDate)) {
             System.out.println("Input strings should be in the format YEAR-MONTH-DAY");
             return null;
         }
@@ -178,8 +176,8 @@ public class Data {
                     String date = split[3];
                     String[] splitDate = date.split("-");
 
-                    //check year, then month, then day
-                    if(inRange(splitDate, splitTop, splitBottom)){
+                    // check year, then month, then day
+                    if (inRange(splitDate, splitTop, splitBottom)) {
                         foundOne = true;
                         rates.add(Double.valueOf(split[2]));
                         summary.append(line + "\n");
@@ -191,31 +189,29 @@ public class Data {
             e.printStackTrace();
         }
 
-        if(!foundOne){
+        if (!foundOne) {
             return null;
-        }
-        else{
+        } else {
             Collections.sort(rates);
 
             double min = Double.MAX_VALUE;
             double max = Double.MIN_VALUE;
             double sum = 0;
-            for(double value : rates){
-                if(value > max){
+            for (double value : rates) {
+                if (value > max) {
                     max = value;
                 }
-                if(value < min){
+                if (value < min) {
                     min = value;
                 }
                 sum += value;
             }
             double average = sum / rates.size();
-            double median = rates.get((int) Math.ceil(rates.size()/ 2));
+            double median = rates.get((int) Math.ceil(rates.size() / 2));
 
             double temp = 0;
 
-            for (double value : rates)
-            {
+            for (double value : rates) {
                 double squrDiffToMean = Math.pow(value - average, 2);
                 temp += squrDiffToMean;
             }
@@ -274,12 +270,12 @@ public class Data {
         if (rowIdx < 0 || colIdx < 0)
             throw new IllegalArgumentException("Invalid input.");
 
-        int[] result = new int[]{rowIdx, colIdx};
+        int[] result = new int[] { rowIdx, colIdx };
         return result;
     }
 
     public void removePopularCountry(String country) {
-        for (Map.Entry<Integer,String> entry : this.popularCountryIdx.entrySet()) {
+        for (Map.Entry<Integer, String> entry : this.popularCountryIdx.entrySet()) {
             if (entry.getValue().equals(country)) { // country in set
                 Integer keyToRemove = entry.getKey();
                 this.popularCountryIdx.replace(keyToRemove, null);
@@ -287,10 +283,11 @@ public class Data {
                 // move key forward (except last entry removed)
                 if (keyToRemove != 3) {
                     for (int i = keyToRemove; i < 3; i++) {
-                        this.popularCountryIdx.replace(i, this.popularCountryIdx.get(i+1));
+                        this.popularCountryIdx.replace(i, this.popularCountryIdx.get(i + 1));
                     }
                     this.popularCountryIdx.replace(3, null);
                 }
+                System.out.printf("%s successfully deleted.%n", country);
                 this.updatePopularCurrencyTable();
                 return;
             }
@@ -304,10 +301,18 @@ public class Data {
             return;
         }
 
+        // No duplicated popular country value
+        if (this.popularCountryIdx.containsValue(country)) {
+            System.out.println("Curency already in popular table.");
+            return;
+        }
+
         for (int i = 0; i < 4; i++) {
             if (this.popularCountryIdx.get(i) == null) {
                 this.popularCountryIdx.replace(i, country);
                 this.updatePopularCurrencyTable();
+                System.out.printf("%s successfully added.%n", country);
+                return;
             }
         }
         System.out.println("Maximum inputs reached. Remove a country first.");
@@ -328,8 +333,7 @@ public class Data {
 
                 int currencyRowIdx = this.findCurrencyInTable(country1, country2)[0];
                 int currencyColIdx = this.findCurrencyInTable(country1, country2)[1];
-                this.popularCurrencyTable[row][col] = this.currencyTable
-                        [currencyRowIdx][currencyColIdx];
+                this.popularCurrencyTable[row][col] = this.currencyTable[currencyRowIdx][currencyColIdx];
             }
         }
     }
@@ -359,21 +363,25 @@ public class Data {
     // ------------ UI related functions -------------
     public String[] showPopularCountry() {
         String[] tmpArray = new String[this.popularCountryIdx.values().toArray().length];
-//        System.out.println(this.popularCountryIdx.values().toArray()[1].toString());
-        for(int i = 0; i < this.popularCountryIdx.values().toArray().length; i++){
-            tmpArray[i] = this.popularCountryIdx.values().toArray()[i].toString();
+        // System.out.println(this.popularCountryIdx.values().toArray()[1].toString());
+        for (int i = 0; i < this.popularCountryIdx.values().toArray().length; i++) {
+            if (this.popularCountryIdx.values().toArray()[i] == null) {
+                tmpArray[i] = "NULL";
+            } else {
+                tmpArray[i] = this.popularCountryIdx.values().toArray()[i].toString();
+            }
         }
         return tmpArray;
     }
 
     public String[] showAllCountry() {
         String[] tmpArray = new String[this.countryIdx.values().toArray().length];
-//        System.out.println(this.countryIdx.values().toArray()[1].toString());
-        for(int i = 0; i < this.countryIdx.values().toArray().length; i++){
+        // System.out.println(this.countryIdx.values().toArray()[1].toString());
+        for (int i = 0; i < this.countryIdx.values().toArray().length; i++) {
             tmpArray[i] = this.countryIdx.values().toArray()[i].toString();
         }
         return tmpArray;
-    } 
+    }
 
     // Jenkin Test n2
 

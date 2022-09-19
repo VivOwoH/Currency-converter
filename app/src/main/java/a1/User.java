@@ -69,8 +69,8 @@ public class User {
             e.printStackTrace();
         }
 
-        if (prevRate == -1) // no previous rate 
-                        // (i.e. current rate the only existing record)
+        if (prevRate == -1) // no previous rate
+            // (i.e. current rate the only existing record)
             return -2;
 
         else {
@@ -95,22 +95,24 @@ public class User {
         // for every value in the table, compare to previous rate
         for (int row = 0; row < table.length; row++) {
             for (int col = 0; col < table[0].length; col++) {
-                
+
                 double rate = table[row][col];
 
-                // col = from, row = to
-                int result = this.compareRate(rate, idx.get(col), idx.get(row));
-                
-                // 1 = increased
-                // 0 = no change
-                // -1 = decreased
-                // -2 = no history record to compare
-                if (result == 1)
-                    resultTable[row][col] = String.format("%.2f (I)", rate);
-                else if (result == 0 || result == -2)
-                    resultTable[row][col] = Double.toString(rate);
-                else if (result == -1)
-                    resultTable[row][col] = String.format("%.2f (D)", rate);
+                if (idx.get(col) != null && idx.get(row) != null) {
+                    // col = from, row = to
+                    int result = this.compareRate(rate, idx.get(col), idx.get(row));
+
+                    // 1 = increased
+                    // 0 = no change
+                    // -1 = decreased
+                    // -2 = no history record to compare
+                    if (result == 1)
+                        resultTable[row][col] = String.format("%.2f (I)", rate);
+                    else if (result == 0 || result == -2)
+                        resultTable[row][col] = Double.toString(rate);
+                    else if (result == -1)
+                        resultTable[row][col] = String.format("%.2f (D)", rate);
+                }
             }
         }
         return resultTable;
