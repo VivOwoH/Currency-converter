@@ -114,7 +114,7 @@ public class Window extends Frame {
         String fromCur = summaryCurrencyIn.getText();
         String toCur = summaryCurrencyOut.getText();
 
-        String summary = Data.getSummary(this.system, fromCur, toCur, fromDate, toDate);
+        String summary = Data.getSummary(this.system, fromCur, toCur, toDate, fromDate);
 
         if(summary != null){
             System.out.println(summary);
