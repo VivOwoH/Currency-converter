@@ -11,7 +11,7 @@
     - right country: convert to
 - Reload popular currency table
     - User needs to manually click "reload" button to check whether any popular currency rates have been updated by Admin
-    - an up/down arrow will appear next to the currency rate value if the rate increases or decreases
+    - Letters I/D will appear next to the currency rate value if the rate increases or decreases
 - Generate summary of the conversion rates of 2 currencies within a specific duration (start and end dates)
     - includes all conversion rates, average, median, max, min and SD
 
