@@ -35,12 +35,12 @@ public class Window extends Frame {
 
     private TabButton convBtn;
     private CurrencyInput currIn;
-    private CurrencySelect currSelec;
-    private CurrencySelect currSelecResult;
+    protected CurrencySelect currSelec;
+    protected CurrencySelect currSelecResult;
     private WindowText convertResult;
-    private PopularCurrencies popTable;
+    protected PopularCurrencies popTable;
     private RefreshButton refreshBtn;
-    private JScrollPane sp;
+    protected JScrollPane sp;
 
     public Window(int width, int height, String title, Syst system) {
         super(title);
@@ -149,6 +149,17 @@ public class Window extends Frame {
         // add data
         for (String[] row : newData) {
             m.addRow(row);
+        }
+
+        //refreshComboBox
+        String[] newSelections = data.showAllCountry();
+
+        currSelec.removeAllItems();
+        currSelecResult.removeAllItems();
+
+        for (String newItem : newSelections) {
+            currSelec.addItem(newItem);
+            currSelecResult.addItem(newItem);
         }
     }
 }
